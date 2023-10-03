@@ -4,7 +4,7 @@ import { authMiddleware } from "@clerk/nextjs";
 // Please edit this to allow other routes to be public as needed.
 // See https://clerk.com/docs/references/nextjs/auth-middleware for more information about configuring your middleware
 export default authMiddleware({
-  publicRoutes: ["/api/webhook","https://lms-lovat.vercel.app/"]
+  publicRoutes: ["/api/webhook","https://lms-lovat.vercel.app/","https://lms-crjvg5ujl-gajender401.vercel.app/"]
 });
  
 export const config = {
