@@ -13,13 +13,16 @@ const CoursesPage = async () => {
     return redirect("/");
   }
 
-  const courses = [
-    {"name":"Rahul", "course": "xyz", "status": "draft", "id": "shjnmncjc" }
-  ]
+
+  const requests = await db.requests.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
 
   return ( 
     <div className="p-6">
-      <DataTable columns={columns} data={courses} />
+      <DataTable columns={columns} data={requests} />
     </div>
    );
 }
