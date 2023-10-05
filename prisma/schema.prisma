@@ -21,13 +21,13 @@ model Course {
   categoryId String?
   category   Category? @relation(fields: [categoryId], references: [id])
 
-  chapters    Chapter[]
-  attachments Attachment[]
-  purchases   Purchase[]
-  requests    Requests[]
+  chapters     Chapter[]
+  attachments  Attachment[]
+  purchases    Purchase[]
+  applications Applications[]
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
 
   @@index([categoryId])
   @@fulltext([title])
@@ -123,15 +123,23 @@ model StripeCustomer {
   updatedAt DateTime @updatedAt
 }
 
-model Requests {
+model Applications {
   id     String @id @default(uuid())
   userId String
 
   courseId String
   course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
 
-  name   String
-  status String
+  name           String
+  email          String
+  phone          Int
+  heard          String
+  curr_role      String
+  career         String
+  public_profile String
+  profession     String
+  questions      String
+  status         String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

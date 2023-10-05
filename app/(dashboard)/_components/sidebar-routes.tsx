@@ -1,6 +1,6 @@
 "use client";
 
-import { BarChart, Compass, Layout, List, Airplay, GraduationCap, Building2, Contact2} from "lucide-react";
+import { BarChart, Compass, Layout, List, Airplay, GraduationCap, Building2, Contact2, Book } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 import { SidebarItem } from "./sidebar-item";
@@ -38,20 +38,26 @@ const teacherRoutes = [
 
 const applicationRoutes = [
   {
-    icon: Contact2,
-    label: "Persnol info",
-    href: "#persnol-info",
+    icon: Book,
+    label: "Application",
+    href: "#",
   },
-  {
-    icon: GraduationCap,
-    label: "Education info",
-    href: "#education-info",
-  },
-  {
-    icon: Building2,
-    label: "Occupation details",
-    href: "#occupation-details",
-  },
+
+  // {
+  //   icon: Contact2,
+  //   label: "Persnol info",
+  //   href: "#persnol-info",
+  // },
+  // {
+  //   icon: GraduationCap,
+  //   label: "Education info",
+  //   href: "#education-info",
+  // },
+  // {
+  //   icon: Building2,
+  //   label: "Occupation details",
+  //   href: "#occupation-details",
+  // },
 ]
 
 export const SidebarRoutes = () => {
@@ -61,7 +67,7 @@ export const SidebarRoutes = () => {
 
   var routes = isTeacherPage ? teacherRoutes : guestRoutes;
 
-  if (pathname?.includes("/request")) {
+  if (pathname?.includes("/apply")) {
     routes = applicationRoutes
   }
 

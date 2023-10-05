@@ -14,7 +14,7 @@ const CoursesPage = async () => {
   }
 
 
-  const requests = await db.requests.findMany({
+  const applications = await db.applications.findMany({
     orderBy: {
       createdAt: "desc",
     },
@@ -22,7 +22,7 @@ const CoursesPage = async () => {
 
   return ( 
     <div className="p-6">
-      <DataTable columns={columns} data={requests} />
+      <DataTable columns={columns} data={applications} />
     </div>
    );
 }
