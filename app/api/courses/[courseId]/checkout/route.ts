@@ -49,15 +49,6 @@ export async function POST(
       return new NextResponse(`Webhook Error: Missing metadata`, { status: 400 });
     }
 
-    await db.requests.create({
-      data : {
-        userId: userId,
-        name: user.firstName,
-        courseId: params.courseId,
-        status: 'Pending'
-      }
-    });
-
 
     return new NextResponse("working", { status: 200 });
   } catch (error) {
