@@ -84,8 +84,8 @@ export default function Dashboard() {
 
   if (!userId) {
     return (
-      <div className='w-full h-full flex items-center justify-center'>
-        <nav className="flex p-2 items-center justify-between" >
+      <div className='w-full h-full flex items-center flex-col'>
+        <nav className="flex space-x-10 p-2 items-center justify-between" >
           <p>Logo</p>
           <Button onClick={()=>router.push('/sign-in')} >
             Login
