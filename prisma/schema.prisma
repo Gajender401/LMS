@@ -132,7 +132,7 @@ model Applications {
 
   name           String
   email          String
-  phone          Int
+  phone          String
   heard          String
   curr_role      String
   career         String

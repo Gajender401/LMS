@@ -59,24 +59,28 @@ const formSchema = z.object({
   profession: z
     .string()
     .min(10, {
-      message: "Bio must be at least 10 characters.",
+      message: "profession must be at least 10 characters.",
     })
     .max(160, {
-      message: "Bio must not be longer than 30 characters.",
+      message: "profession must not be longer than 30 characters.",
     }),
   questions: z
     .string()
     .min(10, {
-      message: "Bio must be at least 10 characters.",
+      message: "questions must be at least 10 characters.",
     })
     .max(160, {
-      message: "Bio must not be longer than 30 characters.",
+      message: "questions must not be longer than 30 characters.",
     })
     .optional(),
+  courseId: z.string(),
+  email: z.string().email().min(5, {
+    message: "questions must be at least 5 characters.",
+  })
 });
 
 const Apply = (
-  { params }: { params: { course: string; } }
+  { params }: { params: { courseId: string; } }
 ) => {
 
   const router = useRouter();
@@ -90,7 +94,8 @@ const Apply = (
       career: "",
       public_profile: "",
       profession: "",
-      questions: ""
+      questions: "",
+      email: ""
     },
   });
 
@@ -99,14 +104,14 @@ const Apply = (
       values.heard = values.other_value;
     }
     delete values.other_value;
-    console.log(values);
+    values.courseId = params.courseId
 
-    // try {
-    //   await axios.post("/api/apply", values);
-    //   toast.success("Your Application is under review");
-    // } catch {
-    //   toast.error("Something went wrong");
-    // }
+    try {
+      await axios.post("/api/apply", values);
+      toast.success("Your Application is under review");
+    } catch {
+      toast.error("Something went wrong");
+    }
   }
 
 
@@ -116,6 +121,25 @@ const Apply = (
         <form
           className="space-y-8 mt-8"
         >
+
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>
+                  Enter your email
+                </FormLabel>
+                <FormControl>
+                  <Input
+                    placeholder="jhondoe@example.com"
+                    {...field}
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+
           <div className="flex space-x-8" >
             <FormField
               control={form.control}

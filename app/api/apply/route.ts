@@ -10,7 +10,7 @@ export async function POST(
   try {
     const user = await currentUser();
 
-    const { heard, curr_role, career, profession, public_profile, questions, courseId } = await req.json();
+    const { heard, curr_role, career, profession, public_profile, questions, courseId, email} = await req.json();
 
     if (!user || !user.id ) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -20,7 +20,7 @@ export async function POST(
       where: {
         userId_courseId: {
           userId: user.id,
-          courseId: "params.courseId"
+          courseId: courseId
         }
       }
     });
@@ -35,13 +35,14 @@ export async function POST(
     if (!userId || !user.firstName) {
       return new NextResponse(`Webhook Error: Missing metadata`, { status: 400 });
     }
+    
 
     await db.applications.create({
       data : {
         userId: userId,
-        name: user.firstName + user.lastName,
-        email: String(user.emailAddresses[0]),
-        phone: Number(user.phoneNumbers[0]),
+        name: user.firstName + " " + user.lastName,
+        email: email,
+        phone: String(user.phoneNumbers[0].phoneNumber),
         heard: heard,
         curr_role: curr_role,
         career: career,
