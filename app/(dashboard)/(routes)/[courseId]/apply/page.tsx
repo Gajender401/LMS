@@ -224,10 +224,10 @@ const Apply = (
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    <SelectItem value="student">I’m a student or looking for my first job</SelectItem>
-                    <SelectItem value="early">Early stage (1-3 years of work experience)</SelectItem>
-                    <SelectItem value="mid">Mid senior (3-5 years of work experience)</SelectItem>
-                    <SelectItem value="5year+">5+ years of work experience</SelectItem>
+                    <SelectItem value="I’m a student or looking for my first job">I’m a student or looking for my first job</SelectItem>
+                    <SelectItem value="Early stage (1-3 years of work experience)">Early stage (1-3 years of work experience)</SelectItem>
+                    <SelectItem value="Mid senior (3-5 years of work experience)">Mid senior (3-5 years of work experience)</SelectItem>
+                    <SelectItem value="5+ years of work experience">5+ years of work experience</SelectItem>
                   </SelectContent>
                 </Select>
               </FormItem>

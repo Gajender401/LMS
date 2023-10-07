@@ -53,14 +53,20 @@ export const columns: ColumnDef<Course>[] = [
       )
     },
     cell: ({ row }) => {
-      const isPending = row.getValue("status") || false;
+      const status = row.getValue("status") || false;
 
       return (
         <Badge className={cn(
-          "bg-slate-500",
-          isPending && "bg-sky-700"
+          status==='pending' && 'bg-sky-400 text-sky-600',
+          status==='visited' && 'bg-purple-400 text-purple-600 ',
+          status==='approved' && 'bg-green-400 text-green-600 ',
+          status==='rejected' && 'bg-red-400 text-red-600 ',
         )}>
-          {isPending ? "Pending" : "Visited"}
+          {status==='pending' && 'Pending'}
+          {status==='visited' && 'Visited'}
+          {status==='approved' && 'Approved'}
+          {status==='rejected' && 'Rejected'}
+
         </Badge>
       )
     }
