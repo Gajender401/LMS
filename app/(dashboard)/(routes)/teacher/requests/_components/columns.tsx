@@ -57,16 +57,12 @@ export const columns: ColumnDef<Course>[] = [
 
       return (
         <Badge className={cn(
-          status==='pending' && 'bg-sky-400 text-sky-600',
-          status==='visited' && 'bg-purple-400 text-purple-600 ',
-          status==='approved' && 'bg-green-400 text-green-600 ',
-          status==='rejected' && 'bg-red-400 text-red-600 ',
+          status=='Pending' && 'bg-sky-200 text-sky-600 hover:bg-sky-200',
+          status=='Visited' && 'bg-purple-200 text-purple-600 hover:bg-purple-200 ',
+          status=='Approved' && 'bg-green-200 text-green-600 hover:bg-green-200',
+          status=='Rejected' && 'bg-red-200 text-red-600 hover:bg-red-200',
         )}>
-          {status==='pending' && 'Pending'}
-          {status==='visited' && 'Visited'}
-          {status==='approved' && 'Approved'}
-          {status==='rejected' && 'Rejected'}
-
+          {row.getValue("status")}
         </Badge>
       )
     }

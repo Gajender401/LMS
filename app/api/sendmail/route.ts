@@ -30,19 +30,21 @@ export async function POST(
                     id: requestId
                 },
                 data: {
-                    status: 'approved'
+                    status: 'Approved'
                 }
             })
 
         } else {
+
             await db.applications.update({
                 where: {
                     id: requestId
                 },
                 data: {
-                    status: 'rejected'
+                    status: 'Rejected'
                 }
             })
+            
         }
 
 

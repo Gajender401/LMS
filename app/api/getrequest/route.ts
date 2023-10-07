@@ -39,7 +39,7 @@ export async function POST(
         id: requestId
       },
       data: {
-        status: 'visited'
+        status: 'Visited'
       }
   });
   

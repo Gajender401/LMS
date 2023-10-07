@@ -46,7 +46,7 @@ const RequestDetails = (
         const response = await axios.post("/api/sendmail", { result: result, requestId: params.requestId });
 
         if (result) {
-            const message = 'Your application has been rejected.'
+            const message = 'Hey congratulations your applications has been approved'
             try {
                 emailjs.send(
                     'service_i8bz6pg',
@@ -69,7 +69,8 @@ const RequestDetails = (
 
 
         } else {
-            const message = 'Hey congratulations your applications has been approved'
+            const message = 'Your application has been rejected.'
+
             emailjs.send(
                 'service_i8bz6pg',
                 'template_6ouvfa8',
@@ -78,9 +79,9 @@ const RequestDetails = (
             )
         }
 
-        if (response.status===200) {
+        if (response.status === 200) {
             toast.success('Updated successfully')
-        }else{
+        } else {
             toast.error('Somting went wrong')
         }
 
