@@ -9,7 +9,7 @@ export async function POST(
 ) {
   try {
     const { userId } = auth();
-    const { url } = await req.json();
+    const { title } = await req.json();
 
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -26,17 +26,28 @@ export async function POST(
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const attachment = await db.attachment.create({
-      data: {
-        url,
-        name: url.split("/").pop(),
+    const lastModule = await db.module.findFirst({
+      where: {
         courseId: params.courseId,
+      },
+      orderBy: {
+        position: "desc",
+      },
+    });
+
+    const newPosition = lastModule ? lastModule.position + 1 : 1;
+
+    const module = await db.module.create({
+      data: {
+        title,
+        courseId: params.courseId,
+        position: newPosition,
       }
     });
 
-    return NextResponse.json(attachment);
+    return NextResponse.json(module);
   } catch (error) {
-    console.log("COURSE_ID_ATTACHMENTS", error);
+    console.log("[CHAPTERS]", error);
     return new NextResponse("Internal Error", { status: 500 });
   }
 }

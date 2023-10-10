@@ -82,7 +82,7 @@ export const ModulesForm = ({
   }
 
   const onEdit = (id: string) => {
-    router.push(`/teacher/courses/${courseId}/modules/${id}`);
+    router.push(`/teacher/courses/${courseId}/${id}`);
   }
 
   return (
@@ -96,7 +96,7 @@ export const ModulesForm = ({
         Course modules
         <Button onClick={toggleCreating} variant="ghost">
           {isCreating ? (
-            <>Cancel</>
+            <>Cancel</> 
           ) : (
             <>
               <PlusCircle className="h-4 w-4 mr-2" />

@@ -5,7 +5,7 @@ import { db } from "@/lib/db";
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { courseId: string; chapterId: string } }
+  { params }: { params: { moduleId: string; chapterId: string } }
 ) {
   try {
     const { userId } = auth();
@@ -14,38 +14,27 @@ export async function PATCH(
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const ownCourse = await db.course.findUnique({
-      where: {
-        id: params.courseId,
-        userId
-      }
-    });
-
-    if (!ownCourse) {
-      return new NextResponse("Unauthorized", { status: 401 });
-    }
-
     const unpublishedChapter = await db.chapter.update({
       where: {
         id: params.chapterId,
-        courseId: params.courseId,
+        moduleId: params.moduleId,
       },
       data: {
         isPublished: false,
       }
     });
 
-    const publishedChaptersInCourse = await db.chapter.findMany({
+    const publishedChaptersInModule = await db.chapter.findMany({
       where: {
-        courseId: params.courseId,
+        moduleId: params.moduleId,
         isPublished: true,
       }
     });
 
-    if (!publishedChaptersInCourse.length) {
+    if (!publishedChaptersInModule.length) {
       await db.course.update({
         where: {
-          id: params.courseId,
+          id: params.moduleId,
         },
         data: {
           isPublished: false,

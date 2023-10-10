@@ -25,20 +25,20 @@ export const ModulesList = ({
   onEdit
 }: ModulesListProps) => {
   const [isMounted, setIsMounted] = useState(false);
-  const [chapters, setChapters] = useState(items);
+  const [modules, setmodules] = useState(items);
 
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
   useEffect(() => {
-    setChapters(items);
+    setmodules(items);
   }, [items]);
 
   const onDragEnd = (result: DropResult) => {
     if (!result.destination) return;
 
-    const items = Array.from(chapters);
+    const items = Array.from(modules);
     const [reorderedItem] = items.splice(result.source.index, 1);
     items.splice(result.destination.index, 0, reorderedItem);
 
@@ -47,7 +47,7 @@ export const ModulesList = ({
 
     const updatedChapters = items.slice(startIndex, endIndex + 1);
 
-    setChapters(items);
+    setmodules(items);
 
     const bulkUpdateData = updatedChapters.map((chapter) => ({
       id: chapter.id,
@@ -66,17 +66,17 @@ export const ModulesList = ({
       <Droppable droppableId="chapters">
         {(provided) => (
           <div {...provided.droppableProps} ref={provided.innerRef}>
-            {chapters.map((chapter, index) => (
-              <Draggable 
-                key={chapter.id} 
-                draggableId={chapter.id} 
+            {modules.map((module, index) => (
+              <Draggable
+                key={module.id}
+                draggableId={module.id}
                 index={index}
               >
                 {(provided) => (
                   <div
                     className={cn(
                       "flex items-center gap-x-2 bg-slate-200 border-slate-200 border text-slate-700 rounded-md mb-4 text-sm",
-                      chapter.isPublished && "bg-sky-100 border-sky-200 text-sky-700"
+                      module.isPublished && "bg-sky-100 border-sky-200 text-sky-700"
                     )}
                     ref={provided.innerRef}
                     {...provided.draggableProps}
@@ -84,7 +84,7 @@ export const ModulesList = ({
                     <div
                       className={cn(
                         "px-2 py-3 border-r border-r-slate-200 hover:bg-slate-300 rounded-l-md transition",
-                        chapter.isPublished && "border-r-sky-200 hover:bg-sky-200"
+                        module.isPublished && "border-r-sky-200 hover:bg-sky-200"
                       )}
                       {...provided.dragHandleProps}
                     >
@@ -92,18 +92,18 @@ export const ModulesList = ({
                         className="h-5 w-5"
                       />
                     </div>
-                    {chapter.title}
+                    {module.title}
                     <div className="ml-auto pr-2 flex items-center gap-x-2">
                       <Badge
                         className={cn(
                           "bg-slate-500",
-                          chapter.isPublished && "bg-sky-700"
+                          module.isPublished && "bg-sky-700"
                         )}
                       >
-                        {chapter.isPublished ? "Published" : "Draft"}
+                        {module.isPublished ? "Published" : "Draft"}
                       </Badge>
                       <Pencil
-                        onClick={() => onEdit(chapter.id)}
+                        onClick={() => onEdit(module.id)}
                         className="w-4 h-4 cursor-pointer hover:opacity-75 transition"
                       />
                     </div>

@@ -4,7 +4,8 @@ import { NextResponse } from "next/server";
 import { db } from "@/lib/db";
 
 export async function DELETE(
-  { params }: { params: { courseId: string } }
+  req: Request,
+  { params }: { params: { moduleId: string } }
 ) {
   try {
     const { userId } = auth();
@@ -13,31 +14,26 @@ export async function DELETE(
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const course = await db.course.findUnique({
+    const module = await db.module.findUnique({
       where: {
-        id: params.courseId,
-        userId: userId,
+        id: params.moduleId,
       },
       include: {
-        modules: {
-          include: {
-            chapters : true
-          }
-        }
+        chapters: true
       }
     });
 
-    if (!course) {
+    if (!module) {
       return new NextResponse("Not found", { status: 404 });
     }
 
-    const deletedCourse = await db.course.delete({
+    const deletedModule = await db.module.delete({
       where: {
-        id: params.courseId,
+        id: params.moduleId,
       },
     });
 
-    return NextResponse.json(deletedCourse);
+    return NextResponse.json(deletedModule);
   } catch (error) {
     console.log("[COURSE_ID_DELETE]", error);
     return new NextResponse("Internal Error", { status: 500 });
@@ -46,28 +42,27 @@ export async function DELETE(
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { courseId: string } }
+  { params }: { params: { moduleId: string } }
 ) {
   try {
     const { userId } = auth();
-    const { courseId } = params;
+    const { moduleId } = params;
     const values = await req.json();
 
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const course = await db.course.update({
+    const module = await db.module.update({
       where: {
-        id: courseId,
-        userId
+        id: moduleId,
       },
       data: {
         ...values,
       }
     });
 
-    return NextResponse.json(course);
+    return NextResponse.json(module);
   } catch (error) {
     console.log("[COURSE_ID]", error);
     return new NextResponse("Internal Error", { status: 500 });

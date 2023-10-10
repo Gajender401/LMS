@@ -5,7 +5,7 @@ import { db } from "@/lib/db";
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { courseId: string } }
+  { params }: { params: { moduleId: string } }
 ) {
   try {
     const { userId } = auth();
@@ -14,29 +14,28 @@ export async function PATCH(
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const course = await db.course.findUnique({
+    const module = await db.module.findUnique({
       where: {
-        id: params.courseId,
-        userId,
+        id: params.moduleId,
       },
       include: {
-        modules: true
+        chapters: true
       }
     });
 
-    if (!course) {
+    if (!module) {
       return new NextResponse("Not found", { status: 404 });
     }
 
-    const hasPublishedModule = course.modules.some((module) => module.isPublished);
+    const hasPublishedChapter = module.chapters.some((module) => module.isPublished);
 
-    if (!course.title || !course.description || !course.imageUrl || !course.categoryId || !hasPublishedModule) {
+    if (!module.title ||  !hasPublishedChapter) {
       return new NextResponse("Missing required fields", { status: 401 });
     }
 
-    const publishedCourse = await db.course.update({
+    const publishedModule = await db.course.update({
       where: {
-        id: params.courseId,
+        id: params.moduleId,
         userId,
       },
       data: {
@@ -44,7 +43,7 @@ export async function PATCH(
       }
     });
 
-    return NextResponse.json(publishedCourse);
+    return NextResponse.json(publishedModule);
   } catch (error) {
     console.log("[COURSE_ID_PUBLISH]", error);
     return new NextResponse("Internal Error", { status: 500 });
