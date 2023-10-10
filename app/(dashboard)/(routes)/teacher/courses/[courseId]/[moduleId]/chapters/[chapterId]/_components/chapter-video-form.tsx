@@ -21,6 +21,7 @@ import { Button } from "@/components/ui/button";
 
 interface ChapterVideoFormProps {
   initialData: Chapter;
+  courseId: string;
   moduleId: string;
   chapterId: string;
 };
@@ -31,6 +32,7 @@ const formSchema = z.object({
 
 export const ChapterVideoForm = ({
   initialData,
+  courseId,
   moduleId,
   chapterId,
 }: ChapterVideoFormProps) => {
@@ -51,7 +53,7 @@ export const ChapterVideoForm = ({
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.patch(`/api/courses/${moduleId}/chapters/${chapterId}`, values);
+      await axios.patch(`/api/courses/${courseId}/${moduleId}/chapters/${chapterId}`, values);
       toast.success("Chapter updated");
       toggleEdit();
       router.refresh();

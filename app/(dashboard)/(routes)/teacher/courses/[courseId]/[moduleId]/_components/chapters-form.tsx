@@ -26,6 +26,7 @@ import { ChaptersList } from "./chapters-list";
 interface ChaptersFormProps {
   initialData: Module & { chapters: Chapter[] };
   moduleId: string;
+  courseId: string
 };
 
 const formSchema = z.object({
@@ -34,7 +35,8 @@ const formSchema = z.object({
 
 export const ChaptersForm = ({
   initialData,
-  moduleId
+  moduleId,
+  courseId
 }: ChaptersFormProps) => {
   const [isCreating, setIsCreating] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
@@ -56,7 +58,7 @@ export const ChaptersForm = ({
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.post(`/api/courses/${moduleId}/chapters`, values);
+      await axios.post(`/api/courses/${courseId}/${moduleId}/chapters`, values);
       toast.success("Chapter created");
       toggleCreating();
       router.refresh();
@@ -69,7 +71,7 @@ export const ChaptersForm = ({
     try {
       setIsUpdating(true);
 
-      await axios.put(`/api/courses/${moduleId}/chapters/reorder`, {
+      await axios.put(`/api/courses/${courseId}/${moduleId}/chapters/reorder`, {
         list: updateData
       });
       toast.success("Chapters reordered");
@@ -82,7 +84,7 @@ export const ChaptersForm = ({
   }
 
   const onEdit = (id: string) => {
-    router.push(`/teacher/courses/${moduleId}/chapters/${id}`);
+    router.push(`/teacher/courses/${courseId}/${moduleId}/chapters/${id}`);
   }
 
   return (

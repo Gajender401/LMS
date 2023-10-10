@@ -23,6 +23,7 @@ interface ChapterTitleFormProps {
   initialData: {
     title: string;
   };
+  courseId: string;
   moduleId: string;
   chapterId: string;
 };
@@ -33,6 +34,7 @@ const formSchema = z.object({
 
 export const ChapterTitleForm = ({
   initialData,
+  courseId,
   moduleId,
   chapterId,
 }: ChapterTitleFormProps) => {
@@ -51,7 +53,7 @@ export const ChapterTitleForm = ({
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.patch(`/api/courses/${moduleId}/chapters/${chapterId}`, values);
+      await axios.patch(`/api/courses/${courseId}/${moduleId}/chapters/${chapterId}`, values);
       toast.success("Chapter updated");
       toggleEdit();
       router.refresh();

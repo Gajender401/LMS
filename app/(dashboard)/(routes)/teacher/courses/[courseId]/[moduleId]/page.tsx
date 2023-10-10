@@ -13,7 +13,7 @@ import { Actions } from "./_components/actions";
 const CourseIdPage = async ({
   params
 }: {
-  params: { moduleId: string }
+  params: { moduleId: string, courseId: string }
 }) => {
   const { userId } = auth();
 
@@ -61,7 +61,7 @@ const CourseIdPage = async ({
         <div className="flex items-center justify-between">
           <div className="flex flex-col gap-y-2">
             <h1 className="text-2xl font-medium">
-              Course setup
+              Module setup
             </h1>
             <span className="text-sm text-slate-700">
               Complete all fields {completionText}
@@ -71,6 +71,7 @@ const CourseIdPage = async ({
             disabled={!isComplete}
             moduleId={params.moduleId}
             isPublished={module.isPublished}
+            courseId={params.courseId}
           />
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
@@ -78,12 +79,13 @@ const CourseIdPage = async ({
             <div className="flex items-center gap-x-2">
               <IconBadge icon={LayoutDashboard} />
               <h2 className="text-xl">
-                Customize your course
+                Customize your module
               </h2>
             </div>
             <TitleForm
               initialData={module}
               moduleId={module.id}
+              courseId={params.courseId}
             />
 
           </div>
@@ -92,12 +94,13 @@ const CourseIdPage = async ({
               <div className="flex items-center gap-x-2">
                 <IconBadge icon={ListChecks} />
                 <h2 className="text-xl">
-                  Course chapters
+                  Module chapters
                 </h2>
               </div>
               <ChaptersForm
                 initialData={module}
                 moduleId={module.id}
+                courseId={params.courseId}
               />
             </div>
           </div>

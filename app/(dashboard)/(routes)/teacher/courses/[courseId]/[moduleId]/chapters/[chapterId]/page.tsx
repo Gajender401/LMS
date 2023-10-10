@@ -16,7 +16,7 @@ import { ChapterActions } from "./_components/chapter-actions";
 const ChapterIdPage = async ({
   params
 }: {
-  params: { moduleId: string; chapterId: string }
+  params: { moduleId: string; chapterId: string, courseId: string }
 }) => {
   const { userId } = auth();
 
@@ -77,6 +77,7 @@ const ChapterIdPage = async ({
               </div>
               <ChapterActions
                 disabled={!isComplete}
+                courseId={params.courseId}
                 moduleId={params.moduleId}
                 chapterId={params.chapterId}
                 isPublished={chapter.isPublished}
@@ -95,11 +96,13 @@ const ChapterIdPage = async ({
               </div>
               <ChapterTitleForm
                 initialData={chapter}
+                courseId={params.courseId}
                 moduleId={params.moduleId}
                 chapterId={params.chapterId}
               />
               <ChapterDescriptionForm
                 initialData={chapter}
+                courseId={params.courseId}
                 moduleId={params.moduleId}
                 chapterId={params.chapterId}
               />
@@ -113,6 +116,7 @@ const ChapterIdPage = async ({
               </div>
               <ChapterAccessForm
                 initialData={chapter}
+                courseId={params.courseId}
                 moduleId={params.moduleId}
                 chapterId={params.chapterId}
               />
@@ -127,6 +131,7 @@ const ChapterIdPage = async ({
             </div>
             <ChapterVideoForm
               initialData={chapter}
+              courseId={params.courseId}
               chapterId={params.chapterId}
               moduleId={params.moduleId}
             />

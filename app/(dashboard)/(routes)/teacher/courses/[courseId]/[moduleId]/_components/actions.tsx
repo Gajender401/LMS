@@ -13,12 +13,14 @@ import { useConfettiStore } from "@/hooks/use-confetti-store";
 interface ActionsProps {
   disabled: boolean;
   moduleId: string;
+  courseId: string
   isPublished: boolean;
 };
 
 export const Actions = ({
   disabled,
   moduleId,
+  courseId,
   isPublished
 }: ActionsProps) => {
   const router = useRouter();
@@ -30,10 +32,10 @@ export const Actions = ({
       setIsLoading(true);
 
       if (isPublished) {
-        await axios.patch(`/api/courses/${moduleId}/unpublish`);
+        await axios.patch(`/api/courses/${courseId}/${moduleId}/unpublish`);
         toast.success("Course unpublished");
       } else {
-        await axios.patch(`/api/courses/${moduleId}/publish`);
+        await axios.patch(`/api/courses/${courseId}/${moduleId}/publish`);
         toast.success("Course published");
         confetti.onOpen();
       }
@@ -50,7 +52,7 @@ export const Actions = ({
     try {
       setIsLoading(true);
 
-      await axios.delete(`/api/courses/${moduleId}`);
+      await axios.delete(`/api/courses/${courseId}/${moduleId}`);
 
       toast.success("Course deleted");
       router.refresh();

@@ -16,16 +16,14 @@ import {
   FormDescription,
   FormField,
   FormItem,
-  FormMessage,
 } from "@/components/ui/form";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Editor } from "@/components/editor";
-import { Preview } from "@/components/preview";
 import { Checkbox } from "@/components/ui/checkbox";
 
 interface ChapterAccessFormProps {
   initialData: Chapter;
+  courseId: string;
   moduleId: string;
   chapterId: string;
 };
@@ -37,6 +35,7 @@ const formSchema = z.object({
 export const ChapterAccessForm = ({
   initialData,
   moduleId,
+  courseId,
   chapterId
 }: ChapterAccessFormProps) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -56,7 +55,7 @@ export const ChapterAccessForm = ({
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.patch(`/api/courses/${moduleId}/chapters/${chapterId}`, values);
+      await axios.patch(`/api/courses/${courseId}/${moduleId}/chapters/${chapterId}`, values);
       toast.success("Chapter updated");
       toggleEdit();
       router.refresh();
