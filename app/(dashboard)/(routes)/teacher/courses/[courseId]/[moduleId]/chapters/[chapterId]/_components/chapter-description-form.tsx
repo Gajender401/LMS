@@ -13,7 +13,6 @@ import { Chapter } from "@prisma/client";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormMessage,
@@ -22,23 +21,22 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Editor } from "@/components/editor";
 import { Preview } from "@/components/preview";
-import { Checkbox } from "@/components/ui/checkbox";
 
-interface ChapterAccessFormProps {
+interface ChapterDescriptionFormProps {
   initialData: Chapter;
-  courseId: string;
+  moduleId: string;
   chapterId: string;
 };
 
 const formSchema = z.object({
-  isFree: z.boolean().default(false),
+  description: z.string().min(1),
 });
 
-export const ChapterAccessForm = ({
+export const ChapterDescriptionForm = ({
   initialData,
-  courseId,
+  moduleId,
   chapterId
-}: ChapterAccessFormProps) => {
+}: ChapterDescriptionFormProps) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const toggleEdit = () => setIsEditing((current) => !current);
@@ -48,7 +46,7 @@ export const ChapterAccessForm = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      isFree: !!initialData.isFree
+      description: initialData?.description || ""
     },
   });
 
@@ -56,7 +54,7 @@ export const ChapterAccessForm = ({
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.patch(`/api/courses/${courseId}/chapters/${chapterId}`, values);
+      await axios.patch(`/api/courses/${moduleId}/chapters/${chapterId}`, values);
       toast.success("Chapter updated");
       toggleEdit();
       router.refresh();
@@ -68,29 +66,30 @@ export const ChapterAccessForm = ({
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
-        Chapter access
+        Chapter description
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
             <>Cancel</>
           ) : (
             <>
               <Pencil className="h-4 w-4 mr-2" />
-              Edit access
+              Edit description
             </>
           )}
         </Button>
       </div>
       {!isEditing && (
-        <p className={cn(
+        <div className={cn(
           "text-sm mt-2",
-          !initialData.isFree && "text-slate-500 italic"
+          !initialData.description && "text-slate-500 italic"
         )}>
-          {initialData.isFree ? (
-            <>This chapter is free for preview.</>
-          ) : (
-            <>This chapter is not free.</>
+          {!initialData.description && "No description"}
+          {initialData.description && (
+            <Preview
+              value={initialData.description}
+            />
           )}
-        </p>
+        </div>
       )}
       {isEditing && (
         <Form {...form}>
@@ -100,20 +99,15 @@ export const ChapterAccessForm = ({
           >
             <FormField
               control={form.control}
-              name="isFree"
+              name="description"
               render={({ field }) => (
-                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
+                <FormItem>
                   <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
+                    <Editor
+                      {...field}
                     />
                   </FormControl>
-                  <div className="space-y-1 leading-none">
-                    <FormDescription>
-                      Check this box if you want to make this chapter free for preview
-                    </FormDescription>
-                  </div>
+                  <FormMessage />
                 </FormItem>
               )}
             />

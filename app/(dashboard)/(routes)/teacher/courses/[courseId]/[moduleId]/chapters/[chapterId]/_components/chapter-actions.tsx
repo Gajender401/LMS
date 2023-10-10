@@ -11,14 +11,14 @@ import { ConfirmModal } from "@/components/modals/confirm-modal";
 
 interface ChapterActionsProps {
   disabled: boolean;
-  courseId: string;
+  moduleId: string;
   chapterId: string;
   isPublished: boolean;
 };
 
 export const ChapterActions = ({
   disabled,
-  courseId,
+  moduleId,
   chapterId,
   isPublished
 }: ChapterActionsProps) => {
@@ -30,10 +30,10 @@ export const ChapterActions = ({
       setIsLoading(true);
 
       if (isPublished) {
-        await axios.patch(`/api/courses/${courseId}/chapters/${chapterId}/unpublish`);
+        await axios.patch(`/api/courses/${moduleId}/chapters/${chapterId}/unpublish`);
         toast.success("Chapter unpublished");
       } else {
-        await axios.patch(`/api/courses/${courseId}/chapters/${chapterId}/publish`);
+        await axios.patch(`/api/courses/${moduleId}/chapters/${chapterId}/publish`);
         toast.success("Chapter published");
       }
 
@@ -49,11 +49,11 @@ export const ChapterActions = ({
     try {
       setIsLoading(true);
 
-      await axios.delete(`/api/courses/${courseId}/chapters/${chapterId}`);
+      await axios.delete(`/api/courses/${moduleId}/chapters/${chapterId}`);
 
       toast.success("Chapter deleted");
       router.refresh();
-      router.push(`/teacher/courses/${courseId}`);
+      router.push(`/teacher/courses/${moduleId}`);
     } catch {
       toast.error("Something went wrong");
     } finally {

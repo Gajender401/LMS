@@ -8,7 +8,7 @@ import { Loader2, PlusCircle } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { Chapter, Course } from "@prisma/client";
+import { Module, Course } from "@prisma/client";
 
 import {
   Form,
@@ -21,10 +21,10 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 
-import { ChaptersList } from "./chapters-list";
+import { ModulesList } from "./modules-list";
 
-interface ChaptersFormProps {
-  initialData: Course & { chapters: Chapter[] };
+interface ModulesFormProps {
+  initialData: Course & { modules: Module[] };
   courseId: string;
 };
 
@@ -32,10 +32,10 @@ const formSchema = z.object({
   title: z.string().min(1),
 });
 
-export const ChaptersForm = ({
+export const ModulesForm = ({
   initialData,
   courseId
-}: ChaptersFormProps) => {
+}: ModulesFormProps) => {
   const [isCreating, setIsCreating] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
 
@@ -56,8 +56,8 @@ export const ChaptersForm = ({
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.post(`/api/courses/${courseId}/chapters`, values);
-      toast.success("Chapter created");
+      await axios.post(`/api/courses/${courseId}/modules`, values);
+      toast.success("Module created");
       toggleCreating();
       router.refresh();
     } catch {
@@ -69,10 +69,10 @@ export const ChaptersForm = ({
     try {
       setIsUpdating(true);
 
-      await axios.put(`/api/courses/${courseId}/chapters/reorder`, {
+      await axios.put(`/api/courses/${courseId}/modules/reorder`, {
         list: updateData
       });
-      toast.success("Chapters reordered");
+      toast.success("Modules reordered");
       router.refresh();
     } catch {
       toast.error("Something went wrong");
@@ -82,7 +82,7 @@ export const ChaptersForm = ({
   }
 
   const onEdit = (id: string) => {
-    router.push(`/teacher/courses/${courseId}/chapters/${id}`);
+    router.push(`/teacher/courses/${courseId}/modules/${id}`);
   }
 
   return (
@@ -93,14 +93,14 @@ export const ChaptersForm = ({
         </div>
       )}
       <div className="font-medium flex items-center justify-between">
-        Course chapters
+        Course modules
         <Button onClick={toggleCreating} variant="ghost">
           {isCreating ? (
             <>Cancel</>
           ) : (
             <>
               <PlusCircle className="h-4 w-4 mr-2" />
-              Add a chapter
+              Add a module
             </>
           )}
         </Button>
@@ -139,19 +139,19 @@ export const ChaptersForm = ({
       {!isCreating && (
         <div className={cn(
           "text-sm mt-2",
-          !initialData.chapters.length && "text-slate-500 italic"
+          !initialData.modules.length && "text-slate-500 italic"
         )}>
-          {!initialData.chapters.length && "No chapters"}
-          <ChaptersList
+          {!initialData.modules.length && "No module"}
+          <ModulesList
             onEdit={onEdit}
             onReorder={onReorder}
-            items={initialData.chapters || []}
+            items={initialData.modules || []}
           />
         </div>
       )}
       {!isCreating && (
         <p className="text-xs text-muted-foreground mt-4">
-          Drag and drop to reorder the chapters
+          Drag and drop to reorder the modules
         </p>
       )}
     </div>

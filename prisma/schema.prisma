@@ -21,15 +21,32 @@ model Course {
   categoryId String?
   category   Category? @relation(fields: [categoryId], references: [id])
 
-  chapters     Chapter[]
-  attachments  Attachment[]
-  purchases    Purchase[]
+  modules      Module[]
   applications Applications[]
 
-  createdAt    DateTime       @default(now())
-  updatedAt    DateTime       @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([categoryId])
+  @@fulltext([title])
+}
+
+model Module {
+  id          String  @id @default(uuid())
+  title       String  @db.Text
+  isPublished Boolean @default(false)
+  position Int
+
+  courseId String
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  chapters Chapter[]
+  quizs    Quiz[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([courseId])
   @@fulltext([title])
 }
 
@@ -39,18 +56,28 @@ model Category {
   courses Course[]
 }
 
-model Attachment {
-  id   String @id @default(uuid())
-  name String
-  url  String @db.Text
+model Quiz {
+  id        String     @id @default(uuid())
+  questions Question[]
 
-  courseId String
-  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  moduleId String
+  module   Module @relation(fields: [moduleId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@index([courseId])
+  @@index([moduleId])
+}
+
+model Question {
+  id       String @id @default(uuid())
+  question String
+  answer   String
+
+  quizId String
+  quiz   Quiz   @relation(fields: [quizId], references: [id], onDelete: Cascade)
+
+  @@index([quizId])
 }
 
 model Chapter {
@@ -58,30 +85,19 @@ model Chapter {
   title       String
   description String? @db.Text
   videoUrl    String? @db.Text
-  position    Int
   isPublished Boolean @default(false)
   isFree      Boolean @default(false)
+  position    Int
 
-  muxData MuxData?
-
-  courseId String
-  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  moduleId String
+  module   Module @relation(fields: [moduleId], references: [id], onDelete: Cascade)
 
   userProgress UserProgress[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@index([courseId])
-}
-
-model MuxData {
-  id         String  @id @default(uuid())
-  assetId    String
-  playbackId String?
-
-  chapterId String  @unique
-  chapter   Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
+  @@index([moduleId])
 }
 
 model UserProgress {
@@ -98,29 +114,6 @@ model UserProgress {
 
   @@unique([userId, chapterId])
   @@index([chapterId])
-}
-
-model Purchase {
-  id     String @id @default(uuid())
-  userId String
-
-  courseId String
-  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt()
-
-  @@unique([userId, courseId])
-  @@index([courseId])
-}
-
-model StripeCustomer {
-  id               String @id @default(uuid())
-  userId           String @unique
-  stripeCustomerId String @unique
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
 
 model Applications {
