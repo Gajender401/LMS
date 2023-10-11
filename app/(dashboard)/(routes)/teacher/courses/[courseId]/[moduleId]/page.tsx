@@ -21,7 +21,7 @@ const CourseIdPage = async ({
     return redirect("/");
   }
 
-  const module = await db.module.findUnique({
+  const _module = await db.module.findUnique({
     where: {
       id: params.moduleId,
     },
@@ -34,13 +34,13 @@ const CourseIdPage = async ({
     },
   });
 
-  if (!module) {
+  if (!_module) {
     return redirect("/");
   }
 
   const requiredFields = [
-    module.title,
-    module.chapters.some(chapter => chapter.isPublished),
+    _module.title,
+    _module.chapters.some(chapter => chapter.isPublished),
   ];
 
   const totalFields = requiredFields.length;
@@ -52,7 +52,7 @@ const CourseIdPage = async ({
 
   return (
     <>
-      {!module.isPublished && (
+      {!_module.isPublished && (
         <Banner
           label="This course is unpublished. It will not be visible to the students."
         />
@@ -70,7 +70,7 @@ const CourseIdPage = async ({
           <Actions
             disabled={!isComplete}
             moduleId={params.moduleId}
-            isPublished={module.isPublished}
+            isPublished={_module.isPublished}
             courseId={params.courseId}
           />
         </div>
@@ -83,7 +83,7 @@ const CourseIdPage = async ({
               </h2>
             </div>
             <TitleForm
-              initialData={module}
+              initialData={_module}
               moduleId={module.id}
               courseId={params.courseId}
             />
@@ -98,7 +98,7 @@ const CourseIdPage = async ({
                 </h2>
               </div>
               <ChaptersForm
-                initialData={module}
+                initialData={_module}
                 moduleId={module.id}
                 courseId={params.courseId}
               />

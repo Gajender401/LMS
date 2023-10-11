@@ -14,7 +14,7 @@ export async function DELETE(
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const module = await db.module.findUnique({
+    const _module = await db.module.findUnique({
       where: {
         id: params.moduleId,
       },
@@ -23,7 +23,7 @@ export async function DELETE(
       }
     });
 
-    if (!module) {
+    if (!_module) {
       return new NextResponse("Not found", { status: 404 });
     }
 
@@ -53,7 +53,7 @@ export async function PATCH(
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const module = await db.module.update({
+    const _module = await db.module.update({
       where: {
         id: moduleId,
       },
@@ -62,7 +62,7 @@ export async function PATCH(
       }
     });
 
-    return NextResponse.json(module);
+    return NextResponse.json(_module);
   } catch (error) {
     console.log("[COURSE_ID]", error);
     return new NextResponse("Internal Error", { status: 500 });

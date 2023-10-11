@@ -14,13 +14,13 @@ export async function PATCH(
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const module = await db.module.findUnique({
+    const _module = await db.module.findUnique({
       where: {
         id: params.moduleId,
       },
     });
 
-    if (!module) {
+    if (!_module) {
       return new NextResponse("Not found", { status: 404 });
     }
 

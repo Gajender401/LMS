@@ -14,7 +14,7 @@ export async function PATCH(
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const module = await db.module.findUnique({
+    const _module = await db.module.findUnique({
       where: {
         id: params.moduleId,
       },
@@ -23,13 +23,13 @@ export async function PATCH(
       }
     });
 
-    if (!module) {
+    if (!_module) {
       return new NextResponse("Not found", { status: 404 });
     }
 
-    const hasPublishedChapter = module.chapters.some((module) => module.isPublished);
+    const hasPublishedChapter = _module.chapters.some((module) => module.isPublished);
 
-    if (!module.title ||  !hasPublishedChapter) {
+    if (!_module.title ||  !hasPublishedChapter) {
       return new NextResponse("Missing required fields", { status: 401 });
     }
 
