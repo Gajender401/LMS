@@ -13,6 +13,7 @@ import { ChapterAccessForm } from "./_components/chapter-access-form";
 import { ChapterVideoForm } from "./_components/chapter-video-form";
 import { ChapterActions } from "./_components/chapter-actions";
 import { ChapterQuizForm } from "./_components/chapter-quiz-form";
+import { QuizForm } from "./_components/quizzes-form";
 
 const ChapterIdPage = async ({
   params
@@ -30,7 +31,11 @@ const ChapterIdPage = async ({
       id: params.chapterId,
       moduleId: params.moduleId
     },
+    include: {
+      quizs: true
+    }
   });
+
 
   if (!chapter) {
     return redirect("/")
@@ -65,7 +70,7 @@ const ChapterIdPage = async ({
               className="flex items-center text-sm hover:opacity-75 transition mb-6"
             >
               <ArrowLeft className="h-4 w-4 mr-2" />
-              Back to course setup
+              Back to module setup
             </Link>
             <div className="flex items-center justify-between w-full">
               <div className="flex flex-col gap-y-2">
@@ -144,7 +149,7 @@ const ChapterIdPage = async ({
                 Add Questions
               </h2>
             </div>
-            <ChapterQuizForm
+            <QuizForm
               initialData={chapter}
               courseId={params.courseId}
               chapterId={params.chapterId}

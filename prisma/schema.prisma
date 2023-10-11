@@ -55,9 +55,34 @@ model Category {
   courses Course[]
 }
 
+model Chapter {
+  id          String  @id @default(uuid())
+  title       String
+  description String? @db.Text
+  videoUrl    String? @db.Text
+  isPublished Boolean @default(false)
+  isFree      Boolean @default(false)
+  position    Int
+
+  moduleId String
+  module   Module @relation(fields: [moduleId], references: [id], onDelete: Cascade)
+
+  quizs    Quiz[]
+  userProgress UserProgress[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([moduleId])
+}
+
 model Quiz {
   id        String     @id @default(uuid())
+
+  title String
   questions Question[]
+  isPublished Boolean
+  position Int
 
   chapterId String
   chapter   Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
@@ -78,28 +103,6 @@ model Question {
   quiz   Quiz   @relation(fields: [quizId], references: [id], onDelete: Cascade)
 
   @@index([quizId])
-}
-
-
-model Chapter {
-  id          String  @id @default(uuid())
-  title       String
-  description String? @db.Text
-  videoUrl    String? @db.Text
-  isPublished Boolean @default(false)
-  isFree      Boolean @default(false)
-  position    Int
-
-  moduleId String
-  module   Module @relation(fields: [moduleId], references: [id], onDelete: Cascade)
-
-  quizs    Quiz[]
-  userProgress UserProgress[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@index([moduleId])
 }
 
 model UserProgress {
