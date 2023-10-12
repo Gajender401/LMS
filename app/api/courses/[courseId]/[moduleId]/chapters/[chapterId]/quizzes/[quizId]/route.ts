@@ -5,7 +5,7 @@ import { db } from "@/lib/db";
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { moduleId: string; chapterId: string } }
+  { params }: { params: { chapterId: string, quizId: string } }
 ) {
   try {
     const { userId } = auth();
@@ -25,43 +25,26 @@ export async function DELETE(
     //   return new NextResponse("Unauthorized", { status: 401 });
     // }
 
-    const chapter = await db.chapter.findUnique({
+    const quiz = await db.quiz.findUnique({
       where: {
-        id: params.chapterId,
-        moduleId: params.moduleId,
+        id: params.quizId,
+        chapterId: params.chapterId,
       }
     });
 
-    if (!chapter) {
+    if (!quiz) {
       return new NextResponse("Not Found", { status: 404 });
     }
 
 
-    const deletedChapter = await db.chapter.delete({
+    const deletedQuiz = await db.quiz.delete({
       where: {
-        id: params.chapterId
+        id: params.quizId
       }
     });
 
-    const publishedChaptersInModule = await db.chapter.findMany({
-      where: {
-        moduleId: params.moduleId,
-        isPublished: true,
-      }
-    });
 
-    if (!publishedChaptersInModule.length) {
-      await db.module.update({
-        where: {
-          id: params.moduleId,
-        },
-        data: {
-          isPublished: false,
-        }
-      });
-    }
-
-    return NextResponse.json(deletedChapter);
+    return NextResponse.json(deletedQuiz);
   } catch (error) {
     console.log("[CHAPTER_ID_DELETE]", error);
     return new NextResponse("Internal Error", { status: 500 });
@@ -70,7 +53,7 @@ export async function DELETE(
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { moduleId: string; chapterId: string } }
+  { params }: { params: { chapterId: string, quizId: string } }
 ) {
   try {
     const { userId } = auth();
@@ -80,10 +63,10 @@ export async function PATCH(
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const chapter = await db.chapter.update({
+    const quiz = await db.quiz.update({
       where: {
-        id: params.chapterId,
-        moduleId: params.moduleId,
+        id: params.quizId,
+        chapterId: params.chapterId,
       },
       data: {
         ...values,
@@ -91,7 +74,7 @@ export async function PATCH(
     });
 
 
-    return NextResponse.json(chapter);
+    return NextResponse.json(quiz);
   } catch (error) {
     console.log("[COURSES_CHAPTER_ID]", error);
     return new NextResponse("Internal Error", { status: 500 }); 

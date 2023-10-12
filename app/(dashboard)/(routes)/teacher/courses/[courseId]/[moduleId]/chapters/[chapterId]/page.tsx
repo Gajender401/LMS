@@ -9,7 +9,6 @@ import { Banner } from "@/components/banner";
 
 import { ChapterTitleForm } from "./_components/chapter-title-form";
 import { ChapterDescriptionForm } from "./_components/chapter-description-form";
-import { ChapterAccessForm } from "./_components/chapter-access-form";
 import { ChapterVideoForm } from "./_components/chapter-video-form";
 import { ChapterActions } from "./_components/chapter-actions";
 import { QuizForm } from "./_components/quizzes-form";
@@ -65,7 +64,7 @@ const ChapterIdPage = async ({
         <div className="flex items-center justify-between">
           <div className="w-full">
             <Link
-              href={`/teacher/courses/${params.moduleId}`}
+              href={`/teacher/courses/${params.courseId}/${params.moduleId}`}
               className="flex items-center text-sm hover:opacity-75 transition mb-6"
             >
               <ArrowLeft className="h-4 w-4 mr-2" />
@@ -112,7 +111,7 @@ const ChapterIdPage = async ({
                 chapterId={params.chapterId}
               />
             </div>
-            <div>
+            {/* <div>
               <div className="flex items-center gap-x-2">
                 <IconBadge icon={Eye} />
                 <h2 className="text-xl">
@@ -125,7 +124,7 @@ const ChapterIdPage = async ({
                 moduleId={params.moduleId}
                 chapterId={params.chapterId}
               />
-            </div>
+            </div> */}
           </div>
           <div>
             <div className="flex items-center gap-x-2">
@@ -145,7 +144,7 @@ const ChapterIdPage = async ({
             <div className="flex items-center gap-x-2">
               <IconBadge icon={FileQuestion} />
               <h2 className="text-xl">
-                Add Questions
+                Add Quizzes
               </h2>
             </div>
             <QuizForm
