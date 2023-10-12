@@ -27,15 +27,15 @@ export async function POST(
 
     const newPosition = lastQuiz ? lastQuiz.position + 1 : 1;
 
-    const chapter = await db.chapter.create({
+    const quiz = await db.quiz.create({
       data: {
         title,
-        moduleId: params.chapterId,
+        chapterId: params.chapterId,
         position: newPosition,
       }
     });
 
-    return NextResponse.json(chapter);
+    return NextResponse.json(quiz);
   } catch (error) {
     console.log("[CHAPTERS]", error);
     return new NextResponse("Internal Error", { status: 500 });

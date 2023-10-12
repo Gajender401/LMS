@@ -84,7 +84,7 @@ const CourseIdPage = async ({
             </div>
             <TitleForm
               initialData={_module}
-              moduleId={module.id}
+              moduleId={_module.id}
               courseId={params.courseId}
             />
 
@@ -99,7 +99,7 @@ const CourseIdPage = async ({
               </div>
               <ChaptersForm
                 initialData={_module}
-                moduleId={module.id}
+                moduleId={_module.id}
                 courseId={params.courseId}
               />
             </div>

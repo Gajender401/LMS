@@ -12,7 +12,6 @@ import { ChapterDescriptionForm } from "./_components/chapter-description-form";
 import { ChapterAccessForm } from "./_components/chapter-access-form";
 import { ChapterVideoForm } from "./_components/chapter-video-form";
 import { ChapterActions } from "./_components/chapter-actions";
-import { ChapterQuizForm } from "./_components/chapter-quiz-form";
 import { QuizForm } from "./_components/quizzes-form";
 
 const ChapterIdPage = async ({

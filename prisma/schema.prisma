@@ -81,7 +81,7 @@ model Quiz {
 
   title String
   questions Question[]
-  isPublished Boolean
+  isPublished Boolean @default(false)
   position Int
 
   chapterId String
