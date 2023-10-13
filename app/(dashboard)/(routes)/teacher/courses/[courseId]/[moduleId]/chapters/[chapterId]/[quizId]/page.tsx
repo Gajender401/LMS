@@ -1,7 +1,7 @@
 import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, LayoutDashboard} from "lucide-react";
+import { ArrowLeft, LayoutDashboard } from "lucide-react";
 
 import { db } from "@/lib/db";
 import { IconBadge } from "@/components/icon-badge";
@@ -9,6 +9,7 @@ import { Banner } from "@/components/banner";
 
 import { QuizActions } from "./_components/quiz-actions";
 import { QuizTitleForm } from "./_components/quiz-title-form";
+import { QuizQuestionForm } from "./_components/quiz-question-form";
 
 const QuizIdPage = async ({
   params
@@ -31,22 +32,19 @@ const QuizIdPage = async ({
     }
   });
 
+  const questions = await db.question.findMany({
+    where: {
+      quizId: params.quizId
+    }
+  });
+
 
   if (!quiz) {
     return redirect("/")
   }
 
-  const requiredFields = [
-    quiz.title,
-    quiz.questions
-  ];
+  const isComplete = questions.length === 0 ? false : true
 
-  const totalFields = requiredFields.length;
-  const completedFields = requiredFields.filter(Boolean).length;
-
-  const completionText = `(${completedFields}/${totalFields})`;
-
-  const isComplete = requiredFields.every(Boolean);
 
   return (
     <>
@@ -71,9 +69,6 @@ const QuizIdPage = async ({
                 <h1 className="text-2xl font-medium">
                   Quiz Creation
                 </h1>
-                <span className="text-sm text-slate-700">
-                  Complete all fields {completionText}
-                </span>
               </div>
               <QuizActions
                 disabled={!isComplete}
@@ -86,7 +81,7 @@ const QuizIdPage = async ({
             </div>
           </div>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
+        <div className="grid grid-cols-1  gap-6 mt-16">
           <div className="space-y-4">
             <div>
               <div className="flex items-center gap-x-2">
@@ -104,10 +99,32 @@ const QuizIdPage = async ({
               />
             </div>
           </div>
+          <div className="space-y-4">
+            {questions.map(item=>(
+              <div>
+                {item.question}
+              </div>
+            ))}
+            <div>
+              <div className="flex items-center gap-x-2">
+                <IconBadge icon={LayoutDashboard} />
+                <h2 className="text-xl">
+                  Customize your Quiz
+                </h2>
+              </div>
+              <QuizQuestionForm
+                initialData={quiz}
+                courseId={params.courseId}
+                moduleId={params.moduleId}
+                chapterId={params.chapterId}
+                quizId={params.quizId}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </>
-   );
+  );
 }
- 
+
 export default QuizIdPage;

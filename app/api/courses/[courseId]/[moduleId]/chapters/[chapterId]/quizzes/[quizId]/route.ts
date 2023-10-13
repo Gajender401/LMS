@@ -77,6 +77,64 @@ export async function PATCH(
     return NextResponse.json(quiz);
   } catch (error) {
     console.log("[COURSES_CHAPTER_ID]", error);
-    return new NextResponse("Internal Error", { status: 500 }); 
+    return new NextResponse("Internal Error", { status: 500 });
+  }
+}
+
+
+// For questions
+
+export async function POST(
+  req: Request
+) {
+  try {
+    const { userId } = auth();
+    const { ...values } = await req.json();
+
+    if (!userId) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
+
+    const questions = await db.question.create({
+      data: {
+        ...values,
+      }
+    });
+
+
+    return NextResponse.json(questions);
+  } catch (error) {
+    console.log("[COURSES_CHAPTER_ID]", error);
+    return new NextResponse("Internal Error", { status: 500 });
+  }
+}
+
+export async function PUT(
+  req: Request,
+  { params }: { params: { questionId: string, quizId: string } }
+) {
+  try {
+    const { userId } = auth();
+    const { ...values } = await req.json();
+
+    if (!userId) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
+
+    const questions = await db.question.update({
+      where: {
+        id: params.questionId,
+        quizId: params.quizId,
+      },
+      data: {
+        ...values,
+      }
+    });
+
+
+    return NextResponse.json(questions);
+  } catch (error) {
+    console.log("[COURSES_CHAPTER_ID]", error);
+    return new NextResponse("Internal Error", { status: 500 });
   }
 }

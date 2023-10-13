@@ -86,7 +86,7 @@ export const QuizForm = ({
   }
 
   const onEdit = (id: string) => {
-    router.push(`/teacher/courses/${courseId}/${moduleId}/chapters/${chapterId}/quizzes/${id}`);
+    router.push(`/teacher/courses/${courseId}/${moduleId}/chapters/${chapterId}/${id}`);
   }
 
   return (
