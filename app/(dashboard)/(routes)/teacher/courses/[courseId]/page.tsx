@@ -50,7 +50,6 @@ const CourseIdPage = async ({
 
     const requiredFields = [
         course.title,
-        course.isPublished,
     ];
 
     const totalFields = requiredFields.length;

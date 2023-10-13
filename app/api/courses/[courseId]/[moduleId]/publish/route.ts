@@ -33,10 +33,9 @@ export async function PATCH(
       return new NextResponse("Missing required fields", { status: 401 });
     }
 
-    const publishedModule = await db.course.update({
+    const publishedModule = await db.module.update({
       where: {
         id: params.moduleId,
-        userId,
       },
       data: {
         isPublished: true,
