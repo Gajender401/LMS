@@ -1,33 +1,31 @@
-import { LucideIcon } from "lucide-react";
-
-import { IconBadge } from "@/components/icon-badge"
+import { Progress } from "@/components/ui/progress";
 
 interface InfoCardProps {
-  numberOfItems: number;
-  variant?: "default" | "success";
-  label: string;
-  icon: LucideIcon;
+  heading: string;
+  date: string;
+  progress: number;
+  color: string;
+  progressColor: string;
 }
 
 export const InfoCard = ({
-  variant,
-  icon: Icon,
-  numberOfItems,
-  label,
+  color,
+  heading,
+  date,
+  progress,
+  progressColor
 }: InfoCardProps) => {
   return (
-    <div className="border rounded-md flex items-center gap-x-2 p-3">
-      <IconBadge
-        variant={variant}
-        icon={Icon}
-      />
+    <div className={`border bg-[${color}] rounded-3xl flex items-center gap-x-2 p-3`}>
       <div>
-        <p className="font-medium">
-          {label}
-        </p>
-        <p className="text-gray-500 text-sm">
-          {numberOfItems} {numberOfItems === 1 ? "Course" : "Courses"}
-        </p>
+        Enroled on : {date}
+      </div>
+      <h2>
+        {heading}
+      </h2>
+      <div>
+        <Progress value={progress} className={`w-[90%] ${progressColor}`} />
+        {progress}%
       </div>
     </div>
   )

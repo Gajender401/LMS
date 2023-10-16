@@ -1,7 +1,6 @@
 'use client'
 import { useAuth } from "@clerk/nextjs";
 import { Category, Chapter, Course } from "@prisma/client";
-import { CheckCircle, Clock } from "lucide-react";
 
 import { getDashboardCourses } from "@/actions/get-dashboard-courses";
 import { CoursesList } from "@/components/courses-list";
@@ -14,7 +13,7 @@ import { Sidebar } from "../(dashboard)/_components/sidebar";
 
 import { Button } from '@/components/ui/button';
 import axios from 'axios';
-import {useRouter } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import { useUserContext } from "@/hooks/context";
 
 
@@ -46,11 +45,11 @@ export default function Dashboard() {
   const router = useRouter();
   const [redirectState, setredirectState] = useState(true)
 
-  const {redirectUrl, setRedirectUrl } = useUserContext()
+  const { redirectUrl, setRedirectUrl } = useUserContext()
 
   if (redirectUrl && redirectState) {
     console.log(redirectUrl);
-    
+
     router.replace(redirectUrl)
   }
 
@@ -76,7 +75,7 @@ export default function Dashboard() {
     fetchData();
   }, [userId]);
 
-  const handleSubmit = (id:string) => {
+  const handleSubmit = (id: string) => {
     setredirectState(false)
     setRedirectUrl(`/${id}/apply`)
     router.push('/sign-in');
@@ -87,7 +86,7 @@ export default function Dashboard() {
       <div className='w-full h-full flex items-center flex-col'>
         <nav className="flex space-x-10 p-2 items-center justify-between" >
           <p>Logo</p>
-          <Button onClick={()=>router.push('/sign-in')} >
+          <Button onClick={() => router.push('/sign-in')} >
             Login
           </Button>
         </nav>
@@ -111,30 +110,20 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="h-full">
+    <div className="h-full bg-[#f3f6fd] ">
       <div className="h-[80px] md:pl-56 fixed inset-y-0 w-full z-50">
         <Navbar />
       </div>
-      <div className="hidden md:flex h-full w-56 flex-col fixed inset-y-0 z-50">
+      <div className="hidden md:flex h-full w-20 items-center flex-col fixed inset-y-0 z-50">
         <Sidebar />
       </div>
-      <main className="md:pl-56 pt-[80px] h-full">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <InfoCard
-            icon={Clock}
-            label="In Progress"
-            numberOfItems={coursesInProgress.length}
-          />
-          <InfoCard
-            icon={CheckCircle}
-            label="Completed"
-            numberOfItems={completedCourses.length}
-            variant="success"
-          />
+      <main className="md:pl-20 md:pb-10 flex items-center flex-row pb-5 pt-[80px] h-full">
+        <div className="grid bg-white p-8 w-[68%] rounded-[35px] h-full grid-cols-1 sm:grid-cols-2 gap-4">
+          <h2 className="text-[25px] font-semibold" >My jurney</h2>
         </div>
-        <CoursesList
-          items={[...coursesInProgress, ...completedCourses]}
-        />
+        <div className=" bg-white p-8 w-[28%] mx-[2%] rounded-[40px] h-full flex flex-col items-center gap-4">
+        <h2 className="text-[25px] font-medium" >Updates</h2>
+        </div>
       </main>
     </div>
 

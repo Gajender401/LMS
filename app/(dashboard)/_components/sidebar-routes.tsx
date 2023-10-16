@@ -1,13 +1,13 @@
 "use client";
 
-import { BarChart, Compass, Layout, List, Airplay, GraduationCap, Building2, Contact2, Book } from "lucide-react";
+import { BarChart, Compass, Layout, List, Airplay, GraduationCap, Building2, Contact2, Book, HomeIcon, Calendar, Settings } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 import { SidebarItem } from "./sidebar-item";
 
 const guestRoutes = [
   {
-    icon: Layout,
+    icon: HomeIcon,
     label: "Dashboard",
     href: "/",
   },
@@ -16,6 +16,16 @@ const guestRoutes = [
     label: "Browse",
     href: "/search",
   },
+  {
+    icon: Calendar,
+    label: "Shedule",
+    href: "/shedule"
+  },
+  {
+    icon: Settings,
+    label: "Settings",
+    href: "/settings"
+  }
 ];
 
 const teacherRoutes = [
@@ -72,7 +82,7 @@ export const SidebarRoutes = () => {
   }
 
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex gap-4 flex-col w-full">
       {routes.map((route) => (
         <SidebarItem
           key={route.href}
