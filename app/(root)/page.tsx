@@ -114,15 +114,33 @@ export default function Dashboard() {
       <div className="h-[80px] md:pl-56 fixed inset-y-0 w-full z-50">
         <Navbar />
       </div>
-      <div className="hidden md:flex h-full w-20 items-center flex-col fixed inset-y-0 z-50">
+      <div className="hidden md:flex h-full w-56 flex-col fixed inset-y-0 z-50">
         <Sidebar />
       </div>
-      <main className="md:pl-20 md:pb-10 flex items-center flex-row pb-5 pt-[80px] h-full">
-        <div className="grid bg-white p-8 w-[68%] rounded-[35px] h-full grid-cols-1 sm:grid-cols-2 gap-4">
-          <h2 className="text-[25px] font-semibold" >My jurney</h2>
-        </div>
-        <div className=" bg-white p-8 w-[28%] mx-[2%] rounded-[40px] h-full flex flex-col items-center gap-4">
-        <h2 className="text-[25px] font-medium" >Updates</h2>
+      <main className="md:pl-56 md:pb-10 flex items-center flex-row pb-5 pt-[80px] h-full">
+        <div className="flex bg-white p-8 w-full rounded-[35px] h-full flex-col ">
+          <h2 className="text-[25px] font-semibold" >Projects</h2>
+          <div className="flex gap-5 my-5 " >
+            <span>
+              <h2 className="font-semibold text-xl ">45</h2>
+              <p className="text-gray-600" >In Progress</p>
+            </span>
+            <span>
+              <h2 className="font-semibold text-xl ">45</h2>
+              <p className="text-gray-600" >Upcoming</p>
+            </span>
+            <span>
+              <h2 className="font-semibold text-xl ">24</h2>
+              <p className="text-gray-600" >Total Projects</p>
+            </span>
+          </div>
+          <InfoCard
+            color="bg-[#fce4ca]"
+            heading="Web development"
+            date="12 November 2023"
+            progress={60}
+            progressColor="bg-[#fa8d39]"
+          />
         </div>
       </main>
     </div>
