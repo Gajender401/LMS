@@ -44,6 +44,8 @@ export default function Dashboard() {
   const [courses, setCourses] = useState<CourseT[]>([]);
   const router = useRouter();
   const [redirectState, setredirectState] = useState(true)
+  const date = new Date();
+
 
   const { redirectUrl, setRedirectUrl } = useUserContext()
 
@@ -119,7 +121,10 @@ export default function Dashboard() {
       </div>
       <main className="md:pl-56 md:pb-10 flex items-center flex-row pb-5 pt-[80px] h-full">
         <div className="flex bg-white p-8 w-full rounded-[35px] h-full flex-col ">
+          <div className="flex flex-row items-center justify-between" >
           <h2 className="text-[25px] font-semibold" >Projects</h2>
+          <h2 className="text-[20px] text-slate-600 mr-6 font-semibold" >{date.toDateString()}</h2>
+          </div>
           <div className="flex gap-5 my-5 " >
             <span>
               <h2 className="font-semibold text-xl ">45</h2>
