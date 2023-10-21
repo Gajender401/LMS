@@ -19,8 +19,6 @@ export async function POST(
         }
 
 
-
-
         const { result, requestId } = await req.json()
 
 

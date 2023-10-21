@@ -4,7 +4,7 @@ import * as z from "zod";
 import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { useParams, useRouter } from "next/navigation";
+import { redirect, useParams, useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
 import {
@@ -109,6 +109,7 @@ const Apply = (
     try {
       await axios.post("/api/apply", values);
       toast.success("Your Application is under review");
+      redirect('/')
     } catch {
       toast.error("Something went wrong");
     }

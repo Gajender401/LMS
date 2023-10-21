@@ -1,6 +1,6 @@
 import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
-import { CircleDollarSign, LayoutDashboard, ListChecks } from "lucide-react";
+import { CircleDollarSign, IndianRupeeIcon, LayoutDashboard, ListChecks } from "lucide-react";
 
 import { db } from "@/lib/db";
 import { IconBadge } from "@/components/icon-badge";
@@ -115,7 +115,7 @@ const CourseIdPage = async ({
 
                         <div>
                             <div className="flex items-center gap-x-2">
-                                <IconBadge icon={CircleDollarSign} />
+                                <IconBadge icon={IndianRupeeIcon} />
                                 <h2 className="text-xl">
                                     Sell your course
                                 </h2>

@@ -5,7 +5,7 @@ import { db } from "@/lib/db";
 
 type CourseWithProgressWithCategory = Course & {
   category: Category | null;
-  chapters: { id: string }[];
+  phase: { id: string }[];
   progress: number | null;
 };
 
@@ -31,7 +31,7 @@ export const getCourses = async ({
       },
       include: {
         category: true,
-        chapters: {
+        phase: {
           where: {
             isPublished: true,
           },
@@ -39,9 +39,10 @@ export const getCourses = async ({
             id: true,
           }
         },
-        purchases: {
+        applications: {
           where: {
             userId,
+            status: 'Approved'
           }
         }
       },
@@ -52,7 +53,7 @@ export const getCourses = async ({
 
     const coursesWithProgress: CourseWithProgressWithCategory[] = await Promise.all(
       courses.map(async course => {
-        if (course.purchases.length === 0) {
+        if (course.applications.length === 0) {
           return {
             ...course,
             progress: null,

@@ -14,31 +14,30 @@ export async function DELETE(
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const course = await db.course.findUnique({
+    const phase = await db.phase.findUnique({
       where: {
         id: params.courseId,
-        userId: userId,
       },
       include: {
-        phase: {
+        modules: {
           include: {
-            modules : true
+            chapters : true
           }
         }
       }
     });
 
-    if (!course) {
+    if (!phase) {
       return new NextResponse("Not found", { status: 404 });
     }
 
-    const deletedCourse = await db.course.delete({
+    const deletedPhase = await db.phase.delete({
       where: {
-        id: params.courseId,
+        id: params.phaseId,
       },
     });
 
-    return NextResponse.json(deletedCourse);
+    return NextResponse.json(deletedPhase);
   } catch (error) {
     console.log("[COURSE_ID_DELETE]", error);
     return new NextResponse("Internal Error", { status: 500 });
@@ -47,28 +46,27 @@ export async function DELETE(
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { courseId: string } }
+  { params }: { params: { phaseId: string } }
 ) {
   try {
     const { userId } = auth();
-    const { courseId } = params;
+    const { phaseId } = params;
     const values = await req.json();
 
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const course = await db.course.update({
+    const phase = await db.phase.update({
       where: {
-        id: courseId,
-        userId
+        id: phaseId,
       },
       data: {
         ...values,
       }
     });
 
-    return NextResponse.json(course);
+    return NextResponse.json(phase);
   } catch (error) {
     console.log("[COURSE_ID]", error);
     return new NextResponse("Internal Error", { status: 500 });

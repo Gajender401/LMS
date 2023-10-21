@@ -102,11 +102,14 @@ const QuizIdPage = async ({
             </div>
           </div>
           <div className="space-y-4">
+            <div className="my-5 ml-4" >
+            <h2 className="text-xl mb-2 -ml-2">Questions: </h2>
             {questions.map(item=>(
               <div>
                 {item.question}
               </div>
             ))}
+            </div>
             <div>
               <div className="flex items-center gap-x-2">
                 <IconBadge icon={LayoutDashboard} />

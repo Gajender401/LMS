@@ -5,7 +5,7 @@ import { db } from "@/lib/db";
 
 export async function PATCH(
   req: Request,
-  { params }: { params: { courseId: string } }
+  { params }: { params: { courseId: string, phaseId: string } }
 ) {
   try {
     const { userId } = auth();
@@ -14,28 +14,26 @@ export async function PATCH(
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const course = await db.course.findUnique({
+    const phase = await db.phase.findUnique({
       where: {
-        id: params.courseId,
-        userId,
+        id: params.phaseId,
       },
     });
 
-    if (!course) {
+    if (!phase) {
       return new NextResponse("Not found", { status: 404 });
     }
 
-    const unpublishedCourse = await db.course.update({
+    const unpublishedPhase = await db.phase.update({
       where: {
-        id: params.courseId,
-        userId,
+        id: params.phaseId,
       },
       data: {
         isPublished: false,
       }
     });
 
-    return NextResponse.json(unpublishedCourse);
+    return NextResponse.json(unpublishedPhase);
   } catch (error) {
     console.log("[COURSE_ID_UNPUBLISH]", error);
     return new NextResponse("Internal Error", { status: 500 });

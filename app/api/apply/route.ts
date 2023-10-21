@@ -16,20 +16,6 @@ export async function POST(
       return new NextResponse("Unauthorized", { status: 401 });
     }
 
-    const purchase = await db.purchase.findUnique({
-      where: {
-        userId_courseId: {
-          userId: user.id,
-          courseId: courseId
-        }
-      }
-    });
-
-    if (purchase) {
-      return new NextResponse("Already Enrolled", { status: 400 });
-    }
-
-
     const { userId } = auth();
 
     if (!userId || !user.firstName) {

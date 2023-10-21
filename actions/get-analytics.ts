@@ -1,7 +1,7 @@
 import { db } from "@/lib/db";
-import { Course, Purchase } from "@prisma/client";
+import { Course, Applications } from "@prisma/client";
 
-type PurchaseWithCourse = Purchase & {
+type PurchaseWithCourse = Applications & {
   course: Course;
 };
 
@@ -21,25 +21,28 @@ const groupByCourse = (purchases: PurchaseWithCourse[]) => {
 
 export const getAnalytics = async (userId: string) => {
   try {
-    const purchases = await db.purchase.findMany({
+    const applications = await db.applications.findMany({
       where: {
         course: {
           userId: userId
-        }
+          
+        },
+        status: 'Approved'
       },
       include: {
         course: true,
       }
     });
 
-    const groupedEarnings = groupByCourse(purchases);
+
+    const groupedEarnings = groupByCourse(applications);
     const data = Object.entries(groupedEarnings).map(([courseTitle, total]) => ({
       name: courseTitle,
       total: total,
     }));
 
     const totalRevenue = data.reduce((acc, curr) => acc + curr.total, 0);
-    const totalSales = purchases.length;
+    const totalSales = applications.length;
 
     return {
       data,
