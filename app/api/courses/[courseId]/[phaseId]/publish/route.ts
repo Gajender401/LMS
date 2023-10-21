@@ -20,7 +20,7 @@ export async function PATCH(
         userId,
       },
       include: {
-        phase: true
+        modules: true
       }
     });
 
@@ -28,7 +28,7 @@ export async function PATCH(
       return new NextResponse("Not found", { status: 404 });
     }
 
-    const hasPublishedModule = course.phase.some((phase) => phase.isPublished);
+    const hasPublishedModule = course.modules.some((module) => module.isPublished);
 
     if (!course.title || !course.description || !course.imageUrl || !course.categoryId || !hasPublishedModule) {
       return new NextResponse("Missing required fields", { status: 401 });

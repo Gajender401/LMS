@@ -21,7 +21,7 @@ model Course {
   categoryId String?
   category   Category? @relation(fields: [categoryId], references: [id])
 
-  modules      Module[]
+  phase        Phase[]
   applications Applications[]
 
   createdAt DateTime @default(now())
@@ -31,21 +31,41 @@ model Course {
   @@fulltext([title])
 }
 
+model Phase {
+  id          String  @id @default(uuid())
+  title       String  @db.Text
+  description String? @db.Text
+
+  isPublished Boolean @default(false)
+  position    Int
+
+  courseId String
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+
+  modules Module[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([courseId])
+  @@fulltext([title])
+}
+
 model Module {
   id          String  @id @default(uuid())
   title       String  @db.Text
   isPublished Boolean @default(false)
-  position Int
+  position    Int
 
-  courseId String
-  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  phaseId String
+  phase   Phase  @relation(fields: [phaseId], references: [id], onDelete: Cascade)
 
   chapters Chapter[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  @@index([courseId])
+  @@index([phaseId])
   @@fulltext([title])
 }
 
@@ -67,7 +87,7 @@ model Chapter {
   moduleId String
   module   Module @relation(fields: [moduleId], references: [id], onDelete: Cascade)
 
-  quizs    Quiz[]
+  quizs        Quiz[]
   userProgress UserProgress[]
 
   createdAt DateTime @default(now())
@@ -77,12 +97,12 @@ model Chapter {
 }
 
 model Quiz {
-  id        String     @id @default(uuid())
+  id String @id @default(uuid())
 
-  title String
-  questions Question[]
-  isPublished Boolean @default(false)
-  position Int
+  title       String
+  questions   Question[]
+  isPublished Boolean    @default(false)
+  position    Int
 
   chapterId String
   chapter   Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)

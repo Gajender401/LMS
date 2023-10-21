@@ -5,7 +5,7 @@ import { db } from "@/lib/db";
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { courseId: string } }
+  { params }: { params: { courseId: string, phaseId: string } }
 ) {
   try {
     const { userId } = auth();

@@ -19,34 +19,25 @@ export async function PATCH(
         id: params.courseId,
         userId,
       },
-      include: {
-        phase: true
-      }
     });
 
     if (!course) {
       return new NextResponse("Not found", { status: 404 });
     }
 
-    const hasPublishedModule = course.phase.some((phase) => phase.isPublished);
-
-    if (!course.title || !course.description || !course.imageUrl || !course.categoryId || !hasPublishedModule) {
-      return new NextResponse("Missing required fields", { status: 401 });
-    }
-
-    const publishedCourse = await db.course.update({
+    const unpublishedCourse = await db.course.update({
       where: {
         id: params.courseId,
         userId,
       },
       data: {
-        isPublished: true,
+        isPublished: false,
       }
     });
 
-    return NextResponse.json(publishedCourse);
+    return NextResponse.json(unpublishedCourse);
   } catch (error) {
-    console.log("[COURSE_ID_PUBLISH]", error);
+    console.log("[COURSE_ID_UNPUBLISH]", error);
     return new NextResponse("Internal Error", { status: 500 });
   } 
 }
