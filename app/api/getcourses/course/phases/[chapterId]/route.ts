@@ -15,7 +15,7 @@ export async function GET(
 
   try {
 
-    const module = await db.module.findMany({
+    const _module = await db.module.findMany({
         where: {
           chapters:{
             some:{
@@ -35,7 +35,7 @@ export async function GET(
         }
       });
     
-    return NextResponse.json(module);
+    return NextResponse.json(_module);
   } catch (error) {
     console.log("[COURSES]", error);
     return new NextResponse("Internal Error", { status: 500 });

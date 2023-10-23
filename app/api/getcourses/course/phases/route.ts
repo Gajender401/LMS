@@ -11,6 +11,9 @@ export async function GET() {
   }
 
   try {
+
+
+
     const course = await db.course.findMany({
       where: {
         applications: {
@@ -22,27 +25,69 @@ export async function GET() {
       }
     });
 
-    const phase = await db.phase.findMany({
-        where: {
-          isPublished: true,
-          courseId:course[0].id
+
+    const phases = await db.phase.findMany({
+      where: {
+        isPublished: true,
+        courseId: course[0].id
+      },
+      include: {
+        modules: {
+          where: {
+            isPublished: true,
+          },
+          include: {
+            chapters: true
+          }
         },
-        include: {
-          modules: {
-            where: {
-              isPublished: true,
-            },
-            include:{
-              chapters: true
-            }
+      },
+      orderBy: {
+        position: "asc"
+      }
+    });
+
+    for (const phase of phases) {
+      const chapterCount = await db.chapter.count({
+        where: {
+          module: {
+            phaseId: phase.id,
           },
         },
-        orderBy: {
-          position:"asc"
-        }
       });
-    
-    return NextResponse.json(phase);
+
+      const phaseData = [phase,chapterCount]
+    }
+
+    const userProgressCount = await db.userProgress.count({
+      where: {
+        userId
+      },
+    });
+
+    return NextResponse.json(phases);
+  } catch (error) {
+    console.log("[COURSES]", error);
+    return new NextResponse("Internal Error", { status: 500 });
+  }
+}
+
+export async function PUT() {
+
+  const { userId } = auth();
+
+  if (!userId) {
+    return new NextResponse("Unauthorized", { status: 401 });
+  }
+
+  try {
+    const applications = await db.applications.findMany({
+      where: {
+        userId,
+        status: 'Approved',
+      }
+    });
+
+    return NextResponse.json(applications);
   } catch (error) {
     console.log("[COURSES]", error);
     return new NextResponse("Internal Error", { status: 500 });

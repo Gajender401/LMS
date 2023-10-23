@@ -17,6 +17,7 @@ model Course {
   imageUrl    String? @db.Text
   price       Float?
   isPublished Boolean @default(false)
+  live        String?
 
   categoryId String?
   category   Category? @relation(fields: [categoryId], references: [id])
@@ -38,6 +39,7 @@ model Phase {
 
   isPublished Boolean @default(false)
   position    Int
+  timeLimit   Int
 
   courseId String
   course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)

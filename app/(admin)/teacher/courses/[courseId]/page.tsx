@@ -1,6 +1,6 @@
 import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
-import { CircleDollarSign, IndianRupeeIcon, LayoutDashboard, ListChecks } from "lucide-react";
+import {IndianRupeeIcon, LayoutDashboard, ListChecks } from "lucide-react";
 
 import { db } from "@/lib/db";
 import { IconBadge } from "@/components/icon-badge";

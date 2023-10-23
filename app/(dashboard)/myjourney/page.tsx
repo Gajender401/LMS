@@ -20,6 +20,7 @@ type Phase = {
     description: string;
     id: string;
     isPublished: boolean;
+    timeLimit: number;
     modules: Array<any>;
     position: number;
     title: string;
@@ -54,6 +55,8 @@ const MyJourney = () => {
 
     const [phases, setPhases] = useState<Phase[]>([])
     const [module, setModule] = useState<Module>()
+    const [lockedPhases, setLockedPhases] = useState<Phase[]>([])
+    const [unlockedLockedPhases, setUnlockedLockedPhases] = useState<Phase[]>([])
 
     const router = useRouter()
 
@@ -61,7 +64,7 @@ const MyJourney = () => {
         const phase = await axios.get('/api/getcourses/course/phases')
         console.log(phase.data);
         setPhases(phase.data)
-    }
+    } 
 
     useEffect(() => {
         fetchCourse()
@@ -84,8 +87,8 @@ const MyJourney = () => {
                             </div>
                         </div>
 
-                        {phases[0]?.modules.map((item:any)=> (
-                            <SheetTrigger asChild >
+                        {phases[0]?.modules.map((item:Module)=> (
+                            <SheetTrigger key={item.id} asChild >
                                 <div onClick={()=> setModule(item)} >
                                     <InfoCard text={`Module ${item?.title}`} />
                                 </div>
@@ -107,7 +110,7 @@ const MyJourney = () => {
                             </SheetTitle>
                             <SheetDescription className="p-2 space-y-2 " >
                                 {module?.chapters.map((item: Chapter) => (
-                                    <div onClick={() => router.replace(`chapter/${item.id}`)}
+                                    <div key={item.id} onClick={() => router.replace(`chapter/${item.id}`)}
                                         className="border cursor-pointer text-slate-600 p-2 rounded-lg border-pink-200 bg-pink-50" >
                                         {item.title}
                                     </div>

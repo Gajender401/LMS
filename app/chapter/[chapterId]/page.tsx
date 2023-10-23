@@ -40,13 +40,13 @@ function Page(
   { params }: { params: { chapterId: string; } }
 ) {
 
-  const [module, setModule] = useState<Module>()
+  const [_module, setModule] = useState<Module>()
   const [selectedChapter, setSelectedChapter] = useState<Chapter>()
 
   async function fetchModule() {
-    const module = await axios.get(`/api/getcourses/course/phases/${params.chapterId}`)
-    console.log(module.data);
-    setModule(module.data)
+    const _module = await axios.get(`/api/getcourses/course/phases/${params.chapterId}`)
+    console.log(_module.data);
+    setModule(_module.data)
   }
 
   useEffect(() => {

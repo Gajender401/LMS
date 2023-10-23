@@ -11,6 +11,7 @@ import { DescriptionForm } from "./_components/description-form";
 import { Actions } from "./_components/actions";
 import { ModulesForm } from "./_components/modules-form";
 import Link from "next/link";
+import { LimitForm } from "./_components/limit-form";
 
 const CourseIdPage = async ({
     params
@@ -62,13 +63,13 @@ const CourseIdPage = async ({
             )}
             <div className="p-6">
                 <div className="flex items-center justify-between">
-                <Link
-              href={`/teacher/courses/${params.courseId}`}
-              className="flex items-center text-sm hover:opacity-75 transition mb-6"
-            >
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Back to course setup
-            </Link>
+                    <Link
+                        href={`/teacher/courses/${params.courseId}`}
+                        className="flex items-center text-sm hover:opacity-75 transition mb-6"
+                    >
+                        <ArrowLeft className="h-4 w-4 mr-2" />
+                        Back to course setup
+                    </Link>
                     <div className="flex flex-col gap-y-2">
                         <h1 className="text-2xl font-medium">
                             Phase setup
@@ -98,6 +99,11 @@ const CourseIdPage = async ({
                             phaseId={params.phaseId}
                         />
                         <DescriptionForm
+                            initialData={phase}
+                            courseId={params.courseId}
+                            phaseId={params.phaseId}
+                        />
+                        <LimitForm
                             initialData={phase}
                             courseId={params.courseId}
                             phaseId={params.phaseId}
