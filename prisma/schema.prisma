@@ -62,11 +62,23 @@ model Module {
 
   chapters Chapter[]
 
+  attachments Attachments[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([phaseId])
   @@fulltext([title])
+}
+
+model Attachments {
+  id  String @id @default(uuid())
+  url String
+
+  Module   Module? @relation(fields: [moduleId], references: [id])
+  moduleId String?
+
+  @@index([moduleId])
 }
 
 model Category {
@@ -78,8 +90,6 @@ model Category {
 model Chapter {
   id          String  @id @default(uuid())
   title       String
-  description String? @db.Text
-  videoUrl    String? @db.Text
   isPublished Boolean @default(false)
   isFree      Boolean @default(false)
   position    Int
@@ -87,6 +97,7 @@ model Chapter {
   moduleId String
   module   Module @relation(fields: [moduleId], references: [id], onDelete: Cascade)
 
+  videos       Video[]
   quizs        Quiz[]
   userProgress UserProgress[]
 
@@ -94,6 +105,20 @@ model Chapter {
   updatedAt DateTime @updatedAt
 
   @@index([moduleId])
+}
+
+model Video {
+  id          String  @id @default(uuid())
+  title       String
+  description String? @db.Text
+  url         String
+  position    Int
+  isPublished Boolean @default(false)
+
+  Chapter   Chapter? @relation(fields: [chapterId], references: [id])
+  chapterId String?
+
+  @@index([chapterId])
 }
 
 model Quiz {

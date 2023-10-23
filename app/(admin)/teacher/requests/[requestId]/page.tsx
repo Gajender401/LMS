@@ -39,7 +39,7 @@ const RequestDetails = (
 
         }
         fetchCourses();
-    }, [])
+    }, [params.requestId])
 
     const sendEmail = async (result: boolean) => {
         setButtonState(true)

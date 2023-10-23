@@ -45,7 +45,6 @@ export const getChapter = async ({
       throw new Error("Chapter or course not found");
     }
 
-    let muxData = null;
     let quizes: Quiz[] = [];
     let nextChapter: Chapter | null = null;
 
@@ -85,7 +84,6 @@ export const getChapter = async ({
     return {
       chapter,
       course,
-      muxData,
       quizes,
       nextChapter,
       userProgress,
@@ -96,11 +94,10 @@ export const getChapter = async ({
     return {
       chapter: null,
       course: null,
-      muxData: null,
-      attachments: [],
+      quizes: [],
       nextChapter: null,
       userProgress: null,
-      purchase: null,
+      applications: null,
     }
   }
 }

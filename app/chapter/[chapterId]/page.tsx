@@ -1,6 +1,6 @@
 'use client'
 import { Navbar } from '@/app/(dashboard)/_components/navbar'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Accordion,
   AccordionContent,
@@ -8,10 +8,51 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion"
 import dynamic from 'next/dynamic'
- 
+import axios from 'axios'
+
 const ReactPlayer = dynamic(() => import('react-player'), { ssr: false })
 
-function Page() {
+type Module = {
+  chapters: Array<any>;
+  createdAt: string;
+  id: string;
+  isPublished: boolean;
+  phaseId: string;
+  position: number;
+  title: string;
+  updatedAt: string;
+};
+
+type Chapter = {
+  createdAt: string;
+  description: string;
+  id: string;
+  isFree: boolean;
+  isPublished: boolean;
+  moduleId: string;
+  position: number;
+  title: string;
+  updatedAt: string;
+  videoUrl: string;
+};
+
+function Page(
+  { params }: { params: { chapterId: string; } }
+) {
+
+  const [module, setModule] = useState<Module>()
+  const [selectedChapter, setSelectedChapter] = useState<Chapter>()
+
+  async function fetchModule() {
+    const module = await axios.get(`/api/getcourses/course/phases/${params.chapterId}`)
+    console.log(module.data);
+    setModule(module.data)
+  }
+
+  useEffect(() => {
+    fetchModule()
+  }, [])
+  
   return (
     <div className="h-full bg-[#f3f6fd]" >
       <div className="h-[80px] fixed inset-y-0 w-full z-50">
@@ -30,6 +71,7 @@ function Page() {
           </Accordion>
         </div>
       </div>
+
       <main className="md:pl-64 flex items-center flex-row pt-[80px] h-full">
         <div className="flex bg-white p-8 w-full h-full items-center flex-col ">
           <ReactPlayer url='https://www.youtube.com/watch?v=wWgIAphfn2U' />

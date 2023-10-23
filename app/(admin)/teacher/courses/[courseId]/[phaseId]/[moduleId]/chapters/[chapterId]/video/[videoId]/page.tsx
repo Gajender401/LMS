@@ -7,14 +7,15 @@ import { db } from "@/lib/db";
 import { IconBadge } from "@/components/icon-badge";
 import { Banner } from "@/components/banner";
 
-import { QuizActions } from "./_components/quiz-actions";
-import { QuizTitleForm } from "./_components/quiz-title-form";
-import { QuizQuestionForm } from "./_components/quiz-question-form";
+import { VideoActions } from "./_components/video-actions";
+import { VideoTitleForm } from "./_components/video-title-form";
+import { ChapterVideoForm } from "./_components/video-form";
+import { VideoDescriptionForm } from "./_components/video-description-form";
 
-const QuizIdPage = async ({
+const VideoIdPage = async ({
   params
 }: {
-  params: { moduleId: string; chapterId: string, courseId: string, quizId: string, phaseId: string }
+  params: { moduleId: string; chapterId: string, courseId: string, quizId: string, phaseId: string, videoId: string }
 }) => {
   const { userId } = auth();
 
@@ -22,33 +23,24 @@ const QuizIdPage = async ({
     return redirect("/");
   }
 
-  const quiz = await db.quiz.findUnique({
+  const video = await db.video.findUnique({
     where: {
       id: params.quizId,
       chapterId: params.chapterId
-    },
-    include: {
-      questions: true
-    }
-  });
-
-  const questions = await db.question.findMany({
-    where: {
-      quizId: params.quizId
     }
   });
 
 
-  if (!quiz) {
+  if (!video) {
     return redirect("/")
   }
 
-  const isComplete = questions.length === 0 ? false : true
+  const isComplete = video.url ? false : true
 
 
   return (
     <>
-      {!quiz.isPublished && (
+      {!video.isPublished && (
         <Banner
           variant="warning"
           label="This Quiz is unpublished. It will not be visible in the chapter"
@@ -70,14 +62,14 @@ const QuizIdPage = async ({
                   Quiz Creation
                 </h1>
               </div>
-              <QuizActions
+              <VideoActions
                 disabled={!isComplete}
                 courseId={params.courseId}
                 phaseId={params.phaseId}
                 moduleId={params.moduleId}
                 chapterId={params.chapterId}
-                quizId={params.quizId}
-                isPublished={quiz.isPublished}
+                videoId={params.videoId}
+                isPublished={video.isPublished}
               />
             </div>
           </div>
@@ -88,42 +80,42 @@ const QuizIdPage = async ({
               <div className="flex items-center gap-x-2">
                 <IconBadge icon={LayoutDashboard} />
                 <h2 className="text-xl">
-                  Customize your Quiz
+                  Customize your video
                 </h2>
               </div>
-              <QuizTitleForm
-                initialData={quiz}
+              <VideoTitleForm
+                initialData={video}
                 courseId={params.courseId}
                 phaseId={params.phaseId}
                 moduleId={params.moduleId}
                 chapterId={params.chapterId}
-                quizId={params.quizId}
+                videoId={params.videoId}
+              />
+              <VideoDescriptionForm
+                initialData={video}
+                courseId={params.courseId}
+                phaseId={params.phaseId}
+                moduleId={params.moduleId}
+                chapterId={params.chapterId}
+                videoId={params.videoId}
               />
             </div>
           </div>
           <div className="space-y-4">
-            <div className="my-5 ml-4" >
-            <h2 className="text-xl mb-2 -ml-2">Questions: </h2>
-            {questions.map(item=>(
-              <div key={item.id} >
-                {item.question}
-              </div>
-            ))}
-            </div>
             <div>
               <div className="flex items-center gap-x-2">
                 <IconBadge icon={LayoutDashboard} />
                 <h2 className="text-xl">
-                  Customize your Quiz
+                  Customize your video
                 </h2>
               </div>
-              <QuizQuestionForm
-                initialData={quiz}
+              <ChapterVideoForm
+                initialData={video}
                 courseId={params.courseId}
                 phaseId={params.phaseId}
                 moduleId={params.moduleId}
                 chapterId={params.chapterId}
-                quizId={params.quizId}
+                videoId={params.videoId}
               />
             </div>
           </div>
@@ -133,4 +125,4 @@ const QuizIdPage = async ({
   );
 }
 
-export default QuizIdPage;
+export default VideoIdPage;

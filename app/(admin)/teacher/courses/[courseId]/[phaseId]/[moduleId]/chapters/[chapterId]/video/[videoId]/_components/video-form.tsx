@@ -2,11 +2,11 @@
 
 import * as z from "zod";
 import axios from "axios";
-import { Pencil, PlusCircle, Video } from "lucide-react";
+import { Pencil, PlusCircle, VideoIcon } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { Chapter } from "@prisma/client";
+import { Video } from "@prisma/client";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import {
@@ -20,11 +20,12 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 interface ChapterVideoFormProps {
-  initialData: Chapter;
+  initialData: Video;
   courseId: string;
   phaseId: string;
   moduleId: string;
   chapterId: string;
+  videoId: string
 };
 
 const formSchema = z.object({
@@ -37,6 +38,7 @@ export const ChapterVideoForm = ({
   phaseId,
   moduleId,
   chapterId,
+  videoId
 }: ChapterVideoFormProps) => {
   const [isEditing, setIsEditing] = useState(false);
 
@@ -55,7 +57,7 @@ export const ChapterVideoForm = ({
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.patch(`/api/courses/${courseId}/${phaseId}/${moduleId}/chapters/${chapterId}`, values);
+      await axios.patch(`/api/courses/${courseId}/${phaseId}/${moduleId}/chapters/${chapterId}/videos/${videoId}`, values);
       toast.success("Chapter updated");
       toggleEdit();
       router.refresh();
@@ -72,13 +74,13 @@ export const ChapterVideoForm = ({
           {isEditing && (
             <>Cancel</>
           )}
-          {!isEditing && !initialData.videoUrl && (
+          {!isEditing && !initialData.url && (
             <>
               <PlusCircle className="h-4 w-4 mr-2" />
               Add a video
             </>
           )}
-          {!isEditing && initialData.videoUrl && (
+          {!isEditing && initialData.url && (
             <>
               <Pencil className="h-4 w-4 mr-2" />
               Edit video
@@ -87,14 +89,14 @@ export const ChapterVideoForm = ({
         </Button>
       </div>
       {!isEditing && (
-        !initialData.videoUrl ? (
+        !initialData.url ? (
           <div className="flex items-center justify-center h-60 bg-slate-200 rounded-md">
-            <Video className="h-10 w-10 text-slate-500" />
+            <VideoIcon className="h-10 w-10 text-slate-500" />
           </div>
         ) : (
           <div className="relative aspect-video mt-2">
             <video
-              src={initialData?.videoUrl}
+              src={initialData?.url}
             />
           </div>
         )
@@ -134,7 +136,7 @@ export const ChapterVideoForm = ({
             </form>
           </Form>
           <div className="text-xs text-muted-foreground mt-4">
-            Upload this chapter&apos;s video
+            Upload this video
           </div>
         </div>
       )}

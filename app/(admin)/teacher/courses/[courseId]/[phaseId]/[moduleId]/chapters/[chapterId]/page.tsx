@@ -9,9 +9,9 @@ import { Banner } from "@/components/banner";
 
 import { ChapterTitleForm } from "./_components/chapter-title-form";
 import { ChapterDescriptionForm } from "./_components/chapter-description-form";
-import { ChapterVideoForm } from "./_components/chapter-video-form";
 import { ChapterActions } from "./_components/chapter-actions";
 import { QuizForm } from "./_components/quizzes-form";
+import { VideoForm } from "./_components/video-form";
 
 const ChapterIdPage = async ({
   params
@@ -30,7 +30,8 @@ const ChapterIdPage = async ({
       moduleId: params.moduleId
     },
     include: {
-      quizs: true
+      quizs: true,
+      videos: true
     }
   });
 
@@ -41,8 +42,6 @@ const ChapterIdPage = async ({
 
   const requiredFields = [
     chapter.title,
-    chapter.description,
-    chapter.videoUrl,
   ];
 
   const totalFields = requiredFields.length;
@@ -114,20 +113,6 @@ const ChapterIdPage = async ({
                 chapterId={params.chapterId}
               />
             </div>
-            {/* <div>
-              <div className="flex items-center gap-x-2">
-                <IconBadge icon={Eye} />
-                <h2 className="text-xl">
-                  Access Settings
-                </h2>
-              </div>
-              <ChapterAccessForm
-                initialData={chapter}
-                courseId={params.courseId}
-                moduleId={params.moduleId}
-                chapterId={params.chapterId}
-              />
-            </div> */}
           </div>
           <div>
             <div className="flex items-center gap-x-2">
@@ -136,7 +121,7 @@ const ChapterIdPage = async ({
                 Add a video
               </h2>
             </div>
-            <ChapterVideoForm
+            <VideoForm
               initialData={chapter}
               courseId={params.courseId}
               phaseId={params.phaseId}
