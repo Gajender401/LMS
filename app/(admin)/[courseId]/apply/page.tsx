@@ -109,7 +109,7 @@ const Apply = (
     try {
       await axios.post("/api/apply", values);
       toast.success("Your Application is under review");
-      redirect('/')
+      router.replace('/')
     } catch {
       toast.error("Something went wrong");
     }

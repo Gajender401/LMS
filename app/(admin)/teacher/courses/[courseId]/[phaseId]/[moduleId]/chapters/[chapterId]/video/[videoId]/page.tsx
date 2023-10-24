@@ -15,7 +15,7 @@ import { VideoDescriptionForm } from "./_components/video-description-form";
 const VideoIdPage = async ({
   params
 }: {
-  params: { moduleId: string; chapterId: string, courseId: string, quizId: string, phaseId: string, videoId: string }
+  params: { moduleId: string; chapterId: string, courseId: string, phaseId: string, videoId: string }
 }) => {
   const { userId } = auth();
 
@@ -25,7 +25,7 @@ const VideoIdPage = async ({
 
   const video = await db.video.findUnique({
     where: {
-      id: params.quizId,
+      id: params.videoId,
       chapterId: params.chapterId
     }
   });
@@ -35,7 +35,7 @@ const VideoIdPage = async ({
     return redirect("/")
   }
 
-  const isComplete = video.url ? false : true
+  const isComplete = video.url ? true : false
 
 
   return (
@@ -59,7 +59,7 @@ const VideoIdPage = async ({
             <div className="flex items-center justify-between w-full">
               <div className="flex flex-col gap-y-2">
                 <h1 className="text-2xl font-medium">
-                  Quiz Creation
+                  Video Creation
                 </h1>
               </div>
               <VideoActions

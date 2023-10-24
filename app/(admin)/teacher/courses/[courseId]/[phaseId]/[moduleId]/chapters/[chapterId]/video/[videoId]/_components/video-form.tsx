@@ -29,7 +29,7 @@ interface ChapterVideoFormProps {
 };
 
 const formSchema = z.object({
-  videoUrl: z.string().min(1),
+  url: z.string().min(1),
 });
 
 export const ChapterVideoForm = ({
@@ -47,7 +47,7 @@ export const ChapterVideoForm = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      videoUrl: ''
+      url: ''
     },
   });
 
@@ -90,14 +90,12 @@ export const ChapterVideoForm = ({
       </div>
       {!isEditing && (
         !initialData.url ? (
-          <div className="flex items-center justify-center h-60 bg-slate-200 rounded-md">
+          <div className="flex items-center justify-center h-20 bg-slate-200 rounded-md">
             <VideoIcon className="h-10 w-10 text-slate-500" />
           </div>
         ) : (
-          <div className="relative aspect-video mt-2">
-            <video
-              src={initialData?.url}
-            />
+          <div className="relative mt-2">
+            {initialData.url}
           </div>
         )
       )}
@@ -111,7 +109,7 @@ export const ChapterVideoForm = ({
             >
               <FormField
                 control={form.control}
-                name="videoUrl"
+                name="url"
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>
@@ -135,9 +133,6 @@ export const ChapterVideoForm = ({
               </div>
             </form>
           </Form>
-          <div className="text-xs text-muted-foreground mt-4">
-            Upload this video
-          </div>
         </div>
       )}
 

@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
 import { auth } from "@clerk/nextjs";
 import { db } from "@/lib/db";
+import { differenceInDays } from 'date-fns';
 
 export async function GET() {
-
   const { userId } = auth();
 
   if (!userId) {
@@ -11,10 +11,7 @@ export async function GET() {
   }
 
   try {
-
-
-
-    const course = await db.course.findMany({
+    const course = await db.course.findFirst({
       where: {
         applications: {
           some: {
@@ -26,10 +23,22 @@ export async function GET() {
     });
 
 
+    if (!course) {
+      return NextResponse.json({ lockedPhases:[], unlockedPhases:[] });
+    }
+
+    const userProgressCount = await db.userProgress.count({
+      where: {
+        userId
+      },
+    });
+
+    const today = new Date(); // Get today's date
+
     const phases = await db.phase.findMany({
       where: {
         isPublished: true,
-        courseId: course[0].id
+        courseId: course.id
       },
       include: {
         modules: {
@@ -46,50 +55,47 @@ export async function GET() {
       }
     });
 
+    const lockedPhases = [];
+    const unlockedPhases = [];
+
+    let cumulativeChapterCount = 0;
     for (const phase of phases) {
       const chapterCount = await db.chapter.count({
         where: {
           module: {
-            phaseId: phase.id,
-          },
-        },
+            phaseId: phase.id
+          }
+        }
       });
 
-      const phaseData = [phase,chapterCount]
+      const application = await db.applications.findFirst({
+        where: {
+          userId,
+          courseId: course.id
+        },
+        select: {
+          createdAt: true
+        }
+      });
+
+      if (!application) {
+        return new NextResponse("Application not found", { status: 404 });
+      }
+
+      const daysSinceApplication = differenceInDays(today, application.createdAt);
+
+      if (userProgressCount >= cumulativeChapterCount + chapterCount || daysSinceApplication >= phase.timeLimit) {
+        unlockedPhases.push(phase);
+      } else {
+        lockedPhases.push(phase);
+      }
+
+      cumulativeChapterCount += chapterCount;
     }
 
-    const userProgressCount = await db.userProgress.count({
-      where: {
-        userId
-      },
-    });
-
-    return NextResponse.json(phases);
+    return NextResponse.json({ lockedPhases, unlockedPhases });
   } catch (error) {
-    console.log("[COURSES]", error);
-    return new NextResponse("Internal Error", { status: 500 });
-  }
-}
-
-export async function PUT() {
-
-  const { userId } = auth();
-
-  if (!userId) {
-    return new NextResponse("Unauthorized", { status: 401 });
-  }
-
-  try {
-    const applications = await db.applications.findMany({
-      where: {
-        userId,
-        status: 'Approved',
-      }
-    });
-
-    return NextResponse.json(applications);
-  } catch (error) {
-    console.log("[COURSES]", error);
+    console.log("[PHASE]", error);
     return new NextResponse("Internal Error", { status: 500 });
   }
 }

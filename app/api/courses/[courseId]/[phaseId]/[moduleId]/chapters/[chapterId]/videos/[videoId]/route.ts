@@ -44,7 +44,7 @@ export async function DELETE(
 export async function PATCH(
   req: Request,
   { params }: { params: { chapterId: string, videoId: string } }
-) {
+) { 
   try {
     const { userId } = auth();
     const { isPublished, ...values } = await req.json();

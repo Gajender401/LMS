@@ -3,8 +3,8 @@ import { auth } from "@clerk/nextjs";
 import { db } from "@/lib/db";
 
 export async function GET(
+  req: Request,
   { params }: { params: { chapterId: string } }
-
 ) {
 
   const { userId } = auth();
@@ -28,6 +28,10 @@ export async function GET(
             where: {
               isPublished: true,
             },
+            include:{
+              videos: true,
+              quizs: true
+            }
           },
         },
         orderBy: {

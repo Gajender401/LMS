@@ -53,7 +53,6 @@ type Phase = {
 
 const MyJourney = () => {
 
-    const [phases, setPhases] = useState<Phase[]>([])
     const [module, setModule] = useState<Module>()
     const [lockedPhases, setLockedPhases] = useState<Phase[]>([])
     const [unlockedLockedPhases, setUnlockedLockedPhases] = useState<Phase[]>([])
@@ -63,7 +62,9 @@ const MyJourney = () => {
     async function fetchCourse() {
         const phase = await axios.get('/api/getcourses/course/phases')
         console.log(phase.data);
-        setPhases(phase.data)
+        setUnlockedLockedPhases(phase.data['unlockedPhases'])
+        setLockedPhases(phase.data['lockedPhases'])
+
     } 
 
     useEffect(() => {
@@ -78,16 +79,17 @@ const MyJourney = () => {
                 <div className="overflow-y-scroll container_1" >
                     <h1 className="text-3xl font-semibold text-slate-800" >My Journey</h1>
 
-                    <div className="p-5 my-5 bg-purple-100 space-y-5 rounded-[35px] h-[60%] overflow-y-auto " >
+                    {unlockedLockedPhases.map(phase =>(
+                    <div key={phase.id} className="p-5 my-5 bg-purple-100 space-y-5 rounded-[35px] h-[60%] overflow-y-auto " >
                         <div className="flex flex-row items-center text-slate-600  justify-between" >
-                            <h2 className="text-xl  my-2 font-medium " >{phases[0]?.title}</h2>
+                            <h2 className="text-xl  my-2 font-medium " >{phase?.title}</h2>
                             <div className="flex flex-row items-center gap-5 " >
                                 <Progress variant="custom2" className="w-56" value={48} />
                                 <span>48%</span>
                             </div>
                         </div>
 
-                        {phases[0]?.modules.map((item:Module)=> (
+                        {phase?.modules.map((item:Module)=> (
                             <SheetTrigger key={item.id} asChild >
                                 <div onClick={()=> setModule(item)} >
                                     <InfoCard text={`Module ${item?.title}`} />
@@ -95,10 +97,11 @@ const MyJourney = () => {
                             </SheetTrigger>
                         ))}
                     </div>
+                    ))}
 
-                    {['Growth Cycle', 'Job Cycle'].map(item => (
-                        <div className="p-5 my-5 bg-gray-200 flex flex-row justify-between text-slate-600 items-center rounded-[35px] h-[20%] overflow-y-hidden " >
-                            <h2 className="text-2xl font-medium " >{item}</h2>
+                    {lockedPhases.map(phase => (
+                        <div key={phase.id} className="p-5 my-5 bg-gray-200 flex flex-row justify-between text-slate-600 items-center rounded-[35px] h-[20%] overflow-y-hidden " >
+                            <h2 className="text-2xl font-medium " >{phase.title}</h2>
                             <AiFillLock size={50} className="pb-2" />
                         </div>
                     ))}

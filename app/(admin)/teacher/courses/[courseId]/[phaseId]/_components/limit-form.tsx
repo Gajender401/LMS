@@ -28,7 +28,7 @@ interface LimitFormProps {
 };
 
 const formSchema = z.object({
-  timeLimit: z.number().min(1, {
+  timeLimit: z.coerce.number().min(1, {
     message: "Limit is required",
   }),
 });
@@ -65,7 +65,7 @@ export const LimitForm = ({
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
-        Course title
+        Phase locked Limit
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
             <>Cancel</>
@@ -97,6 +97,7 @@ export const LimitForm = ({
                     <Input
                       disabled={isSubmitting}
                       placeholder="e.g. 'Advanced web development'"
+                      type="number"
                       {...field}
                     />
                   </FormControl>

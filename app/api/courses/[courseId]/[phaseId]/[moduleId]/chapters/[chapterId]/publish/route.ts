@@ -22,7 +22,7 @@ export async function PATCH(
     });
 
 
-    if (!chapter || !chapter.title || !chapter.description || !chapter.videoUrl) {
+    if (!chapter || !chapter.title ) {
       return new NextResponse("Missing required fields", { status: 400 });
     }
 

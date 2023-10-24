@@ -95,7 +95,7 @@ export const ModulesForm = ({
         </div>
       )}
       <div className="font-medium flex items-center justify-between">
-        Course modules
+        Phase modules
         <Button onClick={toggleCreating} variant="ghost">
           {isCreating ? (
             <>Cancel</> 

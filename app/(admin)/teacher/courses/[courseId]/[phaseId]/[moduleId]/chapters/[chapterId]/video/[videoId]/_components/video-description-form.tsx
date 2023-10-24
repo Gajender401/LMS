@@ -60,7 +60,7 @@ export const VideoDescriptionForm = ({
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.patch(`/api/courses/${courseId}/${phaseId}/${moduleId}/chapters/${chapterId}/video/${videoId}`, values);
+      await axios.patch(`/api/courses/${courseId}/${phaseId}/${moduleId}/chapters/${chapterId}/videos/${videoId}`, values);
       toast.success("Video updated");
       toggleEdit();
       router.refresh();

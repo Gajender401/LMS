@@ -55,7 +55,7 @@ export const VideoForm = ({
     resolver: zodResolver(formSchema),
     defaultValues: {
       title: "",
-    },
+    }, 
   });
 
   const { isSubmitting, isValid } = form.formState;
@@ -88,7 +88,7 @@ export const VideoForm = ({
   }
 
   const onEdit = (id: string) => {
-    router.push(`/teacher/courses/${courseId}/${phaseId}/${moduleId}/chapters/${chapterId}/${id}`);
+    router.push(`/teacher/courses/${courseId}/${phaseId}/${moduleId}/chapters/${chapterId}/video/${id}`);
   }
 
   return (

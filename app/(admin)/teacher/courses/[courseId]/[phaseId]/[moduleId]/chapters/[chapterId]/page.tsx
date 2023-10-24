@@ -8,7 +8,6 @@ import { IconBadge } from "@/components/icon-badge";
 import { Banner } from "@/components/banner";
 
 import { ChapterTitleForm } from "./_components/chapter-title-form";
-import { ChapterDescriptionForm } from "./_components/chapter-description-form";
 import { ChapterActions } from "./_components/chapter-actions";
 import { QuizForm } from "./_components/quizzes-form";
 import { VideoForm } from "./_components/video-form";
@@ -99,13 +98,6 @@ const ChapterIdPage = async ({
                 </h2>
               </div>
               <ChapterTitleForm
-                initialData={chapter}
-                courseId={params.courseId}
-                phaseId={params.phaseId}
-                moduleId={params.moduleId}
-                chapterId={params.chapterId}
-              />
-              <ChapterDescriptionForm
                 initialData={chapter}
                 courseId={params.courseId}
                 phaseId={params.phaseId}

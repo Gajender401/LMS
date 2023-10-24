@@ -9,7 +9,7 @@ export async function POST(
 ) {
   try {
     const { userId } = auth();
-    const { title, url, description } = await req.json();
+    const { title } = await req.json();
 
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -30,8 +30,6 @@ export async function POST(
      const video = await db.video.create({
       data: {
         title,
-        url,
-        description,
         chapterId: params.chapterId,
         position: newPosition,
       }
