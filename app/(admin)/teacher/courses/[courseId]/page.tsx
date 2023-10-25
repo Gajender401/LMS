@@ -13,6 +13,7 @@ import { CategoryForm } from "./_components/category-form";
 import { PriceForm } from "./_components/price-form";
 import { Actions } from "./_components/actions";
 import { PhasesForm } from "./_components/phases-form";
+import { LiveForm } from "./_components/live-form";
 
 const CourseIdPage = async ({
     params
@@ -125,6 +126,11 @@ const CourseIdPage = async ({
                                 courseId={course.id}
                             />
                         </div>
+
+                        <LiveForm
+                            initialData={course}
+                            courseId={course.id}
+                        />
 
                         <div>
                             <div className="flex items-center gap-x-2">

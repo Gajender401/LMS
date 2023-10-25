@@ -1,6 +1,6 @@
 "use client";
 
-import { BarChart, Compass, Layout, List, Airplay, GraduationCap, Building2, Contact2, Book, HomeIcon, Calendar, Settings, Code2, Router, MessageSquare, Briefcase, Split } from "lucide-react";
+import { BarChart, Compass, Layout, List, Airplay, GraduationCap, Building2, Contact2, Book, HomeIcon, Calendar, Settings, Code2, Router, MessageSquare, Briefcase, Split, Tv } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 import { SidebarItem } from "./sidebar-item";
@@ -15,6 +15,11 @@ const guestRoutes = [
     icon: Split,
     label: "My Journey",
     href: "/myjourney",
+  },
+  {
+    icon: Tv,
+    label: "Live class",
+    href: "/live",
   },
   {
     icon: Code2,

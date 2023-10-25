@@ -33,7 +33,7 @@ export async function GET() {
       },
     });
 
-    const today = new Date(); // Get today's date
+    const today = new Date(); 
 
     const phases = await db.phase.findMany({
       where: {
