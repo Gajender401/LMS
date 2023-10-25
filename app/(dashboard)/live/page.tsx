@@ -3,7 +3,7 @@ import axios from 'axios'
 import { useRouter } from 'next/navigation'
 import React, { useEffect, useState } from 'react'
 
-const page = () => {
+const Live = () => {
 
     const [link, setLink] = useState('')
     const router = useRouter()
@@ -26,4 +26,4 @@ const page = () => {
     )
 }
 
-export default page
+export default Live
