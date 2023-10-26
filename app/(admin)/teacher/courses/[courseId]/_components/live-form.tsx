@@ -4,11 +4,11 @@ import * as z from "zod";
 import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Pencil } from "lucide-react";
+import { Loader2, PlusCircle } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { Course } from "@prisma/client";
+import { Course, Live, Phase } from "@prisma/client";
 
 import {
   Form,
@@ -17,69 +17,79 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { Input } from "@/components/ui/input";
 
-interface LiveFormProps {
-  initialData: Course;
+import { LiveList } from "./live-list";
+
+interface LivesFormProps {
+  initialData: Course & { live: Live[] };
   courseId: string;
 };
 
 const formSchema = z.object({
-  live: z.string().min(1, {
-    message: "Title is required",
-  }),
+  title: z.string().min(1),
 });
 
 export const LiveForm = ({
   initialData,
   courseId
-}: LiveFormProps) => {
-  const [isEditing, setIsEditing] = useState(false);
+}: LivesFormProps) => {
+  const [isCreating, setIsCreating] = useState(false);
+  const [isUpdating, setIsUpdating] = useState(false);
 
-  const toggleEdit = () => setIsEditing((current) => !current);
+  const toggleCreating = () => {
+    setIsCreating((current) => !current);
+  }
 
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {live : initialData?.live || ''},
+    defaultValues: {
+      title: "",
+    },
   });
 
   const { isSubmitting, isValid } = form.formState;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.patch(`/api/courses/${courseId}`, values);
-      toast.success("Course updated");
-      toggleEdit();
+      await axios.post(`/api/courses/${courseId}/live`, values);
+      toast.success("Live class created");
+      toggleCreating();
       router.refresh();
     } catch {
       toast.error("Something went wrong");
     }
   }
 
+  const onEdit = (id: string) => {
+    router.push(`/teacher/courses/${courseId}/live/${id}`);
+  }
+
   return (
-    <div className="mt-6 border bg-slate-100 rounded-md p-4">
+    <div className="relative mt-6 border bg-slate-100 rounded-md p-4">
+      {isUpdating && (
+        <div className="absolute h-full w-full bg-slate-500/20 top-0 right-0 rounded-m flex items-center justify-center">
+          <Loader2 className="animate-spin h-6 w-6 text-sky-700" />
+        </div>
+      )}
       <div className="font-medium flex items-center justify-between">
-        Live class link
-        <Button onClick={toggleEdit} variant="ghost">
-          {isEditing ? (
-            <>Cancel</>
+        Course Live classes
+        <Button onClick={toggleCreating} variant="ghost">
+          {isCreating ? (
+            <>Cancel</> 
           ) : (
             <>
-              <Pencil className="h-4 w-4 mr-2" />
-              Edit title
+              <PlusCircle className="h-4 w-4 mr-2" />
+              Add a class
             </>
           )}
         </Button>
       </div>
-      {!isEditing && (
-        <p className="text-sm mt-2">
-          {initialData.live}
-        </p>
-      )}
-      {isEditing && (
+      {isCreating && (
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -87,13 +97,13 @@ export const LiveForm = ({
           >
             <FormField
               control={form.control}
-              name="live"
+              name="title"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
                     <Input
                       disabled={isSubmitting}
-                      placeholder="Url"
+                      placeholder="e.g. 'Introduction to the course'"
                       {...field}
                     />
                   </FormControl>
@@ -101,16 +111,31 @@ export const LiveForm = ({
                 </FormItem>
               )}
             />
-            <div className="flex items-center gap-x-2">
-              <Button
-                disabled={!isValid || isSubmitting}
-                type="submit"
-              >
-                Save
-              </Button>
-            </div>
+            <Button
+              disabled={!isValid || isSubmitting}
+              type="submit"
+            >
+              Create
+            </Button>
           </form>
         </Form>
+      )}
+      {!isCreating && (
+        <div className={cn(
+          "text-sm mt-2",
+          !initialData.live.length && "text-slate-500 italic"
+        )}>
+          {!initialData.live.length && "No classes yet"}
+          <LiveList
+            onEdit={onEdit}
+            items={initialData.live || []}
+          />
+        </div>
+      )}
+      {!isCreating && (
+        <p className="text-xs text-muted-foreground mt-4">
+          Drag and drop to reorder the class
+        </p>
       )}
     </div>
   )

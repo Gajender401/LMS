@@ -36,6 +36,7 @@ const CourseIdPage = async ({
                     position: "asc",
                 },
             },
+            live:true
         },
     });
 

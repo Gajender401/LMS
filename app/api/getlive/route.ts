@@ -11,6 +11,7 @@ export async function GET() {
   }
 
   try {
+    const currentDateTime = new Date().toISOString();
 
     const course = await db.course.findMany({
       where: {
@@ -33,8 +34,19 @@ export async function GET() {
         },
       },
     });
-    
-    return NextResponse.json(course[0].live);
+
+    const live = await db.live.findMany({
+      where: {
+        courseId: course[0].id,
+        timing: {
+          gt: currentDateTime,
+        },
+        isPublished:true
+      },
+    });
+
+
+    return NextResponse.json(live);
   } catch (error) {
     console.log("[COURSES]", error);
     return new NextResponse("Internal Error", { status: 500 });

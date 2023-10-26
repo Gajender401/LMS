@@ -11,7 +11,6 @@ const Live = () => {
     async function fetchLink() {
         const res = await axios.get('/api/getlive')
         console.log(res.data);
-        setLink(res.data)
     }
 
     useEffect(() => {

@@ -17,18 +17,32 @@ model Course {
   imageUrl    String? @db.Text
   price       Float?
   isPublished Boolean @default(false)
-  live        String?
 
   categoryId String?
   category   Category? @relation(fields: [categoryId], references: [id])
 
   phase        Phase[]
   applications Applications[]
+  live         Live[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([categoryId])
+  @@fulltext([title])
+}
+
+model Live {
+  id    String @id @default(uuid())
+  title String
+  isPublished Boolean @default(false)
+
+  timing String
+
+  courseId String
+  course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
+  
+  @@index([courseId])
   @@fulltext([title])
 }
 
