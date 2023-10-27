@@ -36,7 +36,8 @@ model Live {
   id    String @id @default(uuid())
   title String
   isPublished Boolean @default(false)
-
+  
+  url String
   timing String
 
   courseId String

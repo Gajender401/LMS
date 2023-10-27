@@ -8,7 +8,6 @@ import { Pencil } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { format } from "date-fns"
 
 import {
   Form,
@@ -20,26 +19,25 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-
-interface DateFormProps {
+interface UrlFormProps {
   initialData: {
-    timing: string ;
+    url: string;
   };
   courseId: string;
-  liveId: string
+  liveId: string;
 };
 
 const formSchema = z.object({
-  timing: z.coerce.string().min(1, {
-    message: "date is required",
-  })
+  url: z.string().min(1, {
+    message: "Url is required",
+  }),
 });
 
-export const DateForm = ({
+export const UrlForm = ({
   initialData,
   courseId,
   liveId
-}: DateFormProps) => {
+}: UrlFormProps) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const toggleEdit = () => setIsEditing((current) => !current);
@@ -56,7 +54,7 @@ export const DateForm = ({
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       await axios.patch(`/api/courses/${courseId}/live/${liveId}`, values);
-      toast.success("Live updated");
+      toast.success("Live class updated");
       toggleEdit();
       router.refresh();
     } catch {
@@ -67,7 +65,7 @@ export const DateForm = ({
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
-        Set Date and Time
+        Class url
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
             <>Cancel</>
@@ -81,7 +79,7 @@ export const DateForm = ({
       </div>
       {!isEditing && (
         <p className="text-sm mt-2">
-          {initialData.timing}
+          {initialData.url}
         </p>
       )}
       {isEditing && (
@@ -92,14 +90,13 @@ export const DateForm = ({
           >
             <FormField
               control={form.control}
-              name="timing"
+              name="url"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
                     <Input
                       disabled={isSubmitting}
                       placeholder="e.g. 'Advanced web development'"
-                      type="datetime-local"
                       {...field}
                     />
                   </FormControl>

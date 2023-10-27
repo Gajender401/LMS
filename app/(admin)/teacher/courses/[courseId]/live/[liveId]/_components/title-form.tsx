@@ -24,19 +24,19 @@ interface TitleFormProps {
     title: string;
   };
   courseId: string;
-  phaseId: string
+  liveId: string
 };
 
 const formSchema = z.object({
   title: z.string().min(1, {
-    message: "Title is required",
+    message: "Url is required",
   }),
 });
 
 export const TitleForm = ({
   initialData,
   courseId,
-  phaseId
+  liveId
 }: TitleFormProps) => {
   const [isEditing, setIsEditing] = useState(false);
 
@@ -53,8 +53,8 @@ export const TitleForm = ({
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.patch(`/api/courses/${courseId}/${phaseId}`, values);
-      toast.success("Course updated");
+      await axios.patch(`/api/courses/${courseId}/live/${liveId}`, values);
+      toast.success("Live class updated");
       toggleEdit();
       router.refresh();
     } catch {
@@ -65,7 +65,7 @@ export const TitleForm = ({
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
-        Phase title
+        Class title
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
             <>Cancel</>

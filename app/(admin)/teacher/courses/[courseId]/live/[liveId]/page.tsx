@@ -10,6 +10,7 @@ import { TitleForm } from "./_components/title-form";
 import { Actions } from "./_components/actions";
 import Link from "next/link";
 import { DateForm } from "./_components/date-form";
+import { UrlForm } from "./_components/url-form";
 
 const CourseIdPage = async ({
     params
@@ -89,7 +90,12 @@ const CourseIdPage = async ({
                         <TitleForm
                             initialData={live}
                             courseId={params.courseId}
-                            phaseId={params.liveId}
+                            liveId={params.liveId}
+                        />
+                        <UrlForm
+                            initialData={live}
+                            courseId={params.courseId}
+                            liveId={params.liveId}
                         />
                         <DateForm
                             initialData={live}
