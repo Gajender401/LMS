@@ -32,7 +32,7 @@ const Live = () => {
     return (
         <div className="flex bg-white p-8 w-full rounded-[35px] h-full flex-col ">
             {data.map((item: Live)=>(
-                <div className='bg-sky-200 text-sky-600 p-5 justify-between rounded-lg flex flex-row ' >
+                <div key={item.id} className='bg-sky-200 text-sky-600 p-5 justify-between rounded-lg flex flex-row ' >
                     <div>
                     <h2 className='font-semibold' >{item.title}</h2>
                     <p>{item.timing}</p>
