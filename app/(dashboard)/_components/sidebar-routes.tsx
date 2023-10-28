@@ -99,9 +99,10 @@ export const SidebarRoutes = () => {
   return (
     <div>
       {routes.map((route) => (
-        <div className="mt-8 mb-8" >
+        <div 
+        key={route.href}
+         className="mt-8 mb-8" >
           <SidebarItem
-            key={route.href}
             icon={route.icon}
             label={route.label}
             href={route.href}
