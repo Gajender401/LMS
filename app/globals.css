@@ -96,3 +96,277 @@ body,
   scrollbar-width: none;
   /* Firefox */
 }
+
+
+/* navbar mobile */
+.navbar {
+  background-color: #fff;
+  color: #000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0px;
+}
+
+.logo {
+  font-size: 24px;
+}
+
+.menu-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.menu-btn {
+  font-size: 24px;
+  cursor: pointer;
+  margin: 0;
+  padding: 0;
+}
+
+.menu-toggle {
+  display: none;
+}
+
+.menu-toggle:checked + .menu-btn + .nav-menu {
+  display: block;
+}
+
+.nav-menu {
+  list-style: none;
+  padding: 0;
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background-color: #fff;
+  width: 100vw;
+  border-radius: 4px;
+}
+
+.nav-item {
+  cursor: pointer;
+  color: #000;
+  padding: 10px;
+  text-align: center;
+  width: 100vw;
+  transition: 0.3s;
+  box-sizing: border-box;
+}
+
+.nav-item:hover {
+  background-color: #dfcff7;
+}
+.menu-toggle:checked + .menu-btn::before {
+  content: "\00d7";
+  font-size: 36px;
+}
+
+.menu-btn::before {
+  content: "\2630";
+  font-size: 36px;
+}
+
+.dash-board {
+  background-image: linear-gradient(#e2dfdf, #fff);
+}
+.left-side {
+  background-color: #833fee;
+  border-radius: 20px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.right-side {
+  border-radius: 20px;
+}
+
+.welcome-sect {
+  border-radius: 20px;
+  height: 256x;
+  background-image: linear-gradient(160deg, #833fee, #925fe2, #dfcff7);
+}
+
+.welcome-text {
+  color: #ccc;
+}
+
+.welcome-header {
+  font-weight: bolder;
+}
+
+.continue-sect {
+  background-color: #fff;
+  border-radius: 12px;
+}
+.pro-cont {
+  position: relative;
+  min-width: 340px;
+  max-width: 440px;
+
+}
+.progress-bar {
+  box-sizing: border-box;
+
+  position: absolute;
+  min-width: 320px;
+  max-width: 440px;
+  min-height: 80px;
+  max-height: 130px;
+  border: 3px dashed rgba(0, 0, 0, 0.25);
+  border-radius: 20px;
+}
+.progress-bar-inner {
+  position: absolute;
+  min-width: 320px;
+  max-width: 420px;
+  min-height: 80px;
+  max-height: 130px;
+  background: #ffffff;
+  box-shadow: -20px 40px 50px rgba(78, 71, 187, 0.25);
+  border-radius: 20px;
+  top: 20px;
+  left: 20px;
+}
+.progress-bar-play {
+  position: absolute;
+  min-width: 70px;
+  max-width: 90px;
+  min-height: 60px;
+  max-height: 80px;
+  background: #6e00c5;
+  border-radius: 25px;
+  top: 0px;
+  right: 40px;
+}
+
+@media screen and (max-width: 576px) {
+  .progress-bar-inner {
+    position: absolute;
+    top: 30px;
+    left: 20px;
+  }
+}
+
+@media screen and (min-width: 577px) and (max-width: 820px) {
+  .progress-bar-inner {
+    position: absolute;
+    top: 10px;
+    left: 50px;
+  }
+  .progress-bar-play {
+    position: absolute;
+    top: 0px;
+    right: 40px;
+  }
+}
+
+@media screen and (min-width: 821px) and (max-width: 1200px) {
+  .progress-bar-inner {
+    position: absolute;
+    top: 10px;
+    left: 50px;
+  }
+  .progress-bar-play {
+    position: absolute;
+    top: 0px;
+    right: 60px;
+  }
+}
+
+@media screen and (min-width: 1201px) {
+  .progress-bar {
+    min-width: 400px;
+    max-width: 420px;
+  }
+  .progress-bar-inner {
+    position: absolute;
+    top: 10px;
+    left: 60px;
+    min-width: 400px;
+    max-width: 420px;
+  }
+  .progress-bar-play {
+    position: absolute;
+    top: 0px;
+    right: 40px;
+  }
+}
+
+.play-btn-text {
+  margin-left: 10px;
+}
+
+.stat-sect {
+  border-radius: 10px;
+  min-height: 162px;
+  max-height: 277px;
+}
+
+.stat-month {
+  background-color: #f1eeee;
+  border-radius: 12px;
+  padding: 2px 4px;
+  overflow-y: scroll;
+}
+.act-sect {
+  border-radius: 10px;
+}
+
+.ment-sect {
+  border-radius: 10px;
+  min-height: 261px;
+  max-height: 277px;
+}
+
+.ment-msg {
+  margin-right: 10px;
+}
+.ment-msg1 {
+  margin-top: -30px;
+  margin-left: 40px;
+}
+.ment-sup {
+  height: 40px;
+  width: 120px;
+  background-color: #833fee;
+  border-radius: 20px;
+}
+
+.ment-input {
+  border-radius: 8px;
+}
+.ment-input:focus {
+  border: 2px solid #833fee;
+}
+
+.ment-sup-mob {
+  height: 40px;
+  width: 120px;
+  background-color: #833fee;
+  border-radius: 20px;
+}
+
+.invite-img {
+  z-index: 1;
+}
+
+.invite {
+  position: relative;
+  width: 142px;
+  height: 138px;
+  top: 20%;
+  border-radius: 10px;
+}
+
+.invite-btn {
+  width: 88px;
+  height: 24px;
+  background-color: #6e00c5;
+  border-radius: 4px;
+  padding: 4px;
+}
+

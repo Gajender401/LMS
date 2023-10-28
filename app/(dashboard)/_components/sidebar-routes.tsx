@@ -97,14 +97,16 @@ export const SidebarRoutes = () => {
   }
 
   return (
-    <div className="flex gap-4 flex-col w-full">
+    <div>
       {routes.map((route) => (
-        <SidebarItem
-          key={route.href}
-          icon={route.icon}
-          label={route.label}
-          href={route.href}
-        />
+        <div className="mt-8 mb-8" >
+          <SidebarItem
+            key={route.href}
+            icon={route.icon}
+            label={route.label}
+            href={route.href}
+          />
+        </div>
       ))}
     </div>
   )
