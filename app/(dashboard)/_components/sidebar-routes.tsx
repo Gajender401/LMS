@@ -23,7 +23,7 @@ const guestRoutes = [
   },
   {
     icon: Code2,
-    label: "Coding Playground",
+    label: "Playground",
     href: "/playground"
   },
   {
