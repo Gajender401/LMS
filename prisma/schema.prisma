@@ -23,7 +23,7 @@ model Course {
 
   phase        Phase[]
   applications Applications[]
-  live         Live[]
+  batch        Batch[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -32,18 +32,35 @@ model Course {
   @@fulltext([title])
 }
 
-model Live {
+model Batch {
   id    String @id @default(uuid())
-  title String
-  isPublished Boolean @default(false)
-  
-  url String
-  timing String
+  label String
+
+  live Live[]
+  application Applications[]
 
   courseId String
   course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
-  
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   @@index([courseId])
+  @@fulltext([label])
+}
+
+model Live {
+  id          String  @id @default(uuid())
+  title       String
+  isPublished Boolean @default(false)
+
+  url    String
+  timing String
+
+  batchId String
+  batch   Batch  @relation(fields: [batchId], references: [id], onDelete: Cascade)
+
+  @@index([batchId])
   @@fulltext([title])
 }
 
@@ -186,6 +203,9 @@ model UserProgress {
 model Applications {
   id     String @id @default(uuid())
   userId String
+  
+  batchId String
+  batch   Batch @relation(fields: [batchId], references: [id], onDelete: Cascade)
 
   courseId String
   course   Course @relation(fields: [courseId], references: [id], onDelete: Cascade)
@@ -206,4 +226,6 @@ model Applications {
 
   @@unique([userId, courseId])
   @@index([courseId])
+  @@index([batchId])
+
 }
