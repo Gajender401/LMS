@@ -50,6 +50,16 @@ const teacherRoutes = [
     href: "/teacher/courses",
   },
   {
+    icon: List,
+    label: "Courses",
+    href: "/teacher/batches",
+  },
+  {
+    icon: List,
+    label: "Courses",
+    href: "/teacher/live",
+  },
+  {
     icon: BarChart,
     label: "Analytics",
     href: "/teacher/analytics",

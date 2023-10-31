@@ -36,7 +36,6 @@ const CourseIdPage = async ({
                     position: "asc",
                 },
             },
-            live:true
         },
     });
 
@@ -128,10 +127,10 @@ const CourseIdPage = async ({
                             />
                         </div>
 
-                        <LiveForm
+                        {/* <LiveForm
                             initialData={course}
                             courseId={course.id}
-                        />
+                        /> */}
 
                         <div>
                             <div className="flex items-center gap-x-2">

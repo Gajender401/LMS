@@ -12,12 +12,16 @@ export async function GET() {
 
   try {
 
-    const course = await db.course.findMany({
+    const course = await db.course.findFirst({
       where: {
-        applications: {
+        batch: {
           some: {
-            userId,
-            status: 'Approved',
+            application:{
+              some: {
+                userId,
+                status: 'Approved',
+              },
+            }
           },
         },
       },
@@ -34,7 +38,7 @@ export async function GET() {
       },
     });
     
-    return NextResponse.json(course[0]);
+    return NextResponse.json(course);
   } catch (error) {
     console.log("[COURSES]", error);
     return new NextResponse("Internal Error", { status: 500 });

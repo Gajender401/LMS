@@ -13,13 +13,29 @@ export async function GET() {
   try {
     const course = await db.course.findFirst({
       where: {
-        applications: {
+        batch: {
+          some: {
+            application:{
+              some: {
+                userId,
+                status: 'Approved',
+              },
+            }
+          },
+        },
+      },
+    });
+
+    const batch = await db.batch.findFirst({
+      where: {
+        courseId:course?.id,
+        application:{
           some: {
             userId,
             status: 'Approved',
           },
-        },
-      }
+        }
+      },
     });
 
 
@@ -71,7 +87,7 @@ export async function GET() {
       const application = await db.applications.findFirst({
         where: {
           userId,
-          courseId: course.id
+          batchId: batch?.id
         },
         select: {
           createdAt: true
