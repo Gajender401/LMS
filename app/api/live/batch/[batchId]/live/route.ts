@@ -2,29 +2,38 @@ import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
 import { db } from "@/lib/db";
-import { isTeacher } from "@/lib/teacher";
 
 export async function POST(
   req: Request,
+  { params }: { params: { batchId: string } }
 ) {
   try {
     const { userId } = auth();
     const { title } = await req.json();
 
-    if (!userId || !isTeacher(userId)) {
+
+    if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
-
-    const batch = await db.batch.create({
+    
+    const live = await db.live.create({
       data: {
         title,
-        status: 'active'
+        batchId: params.batchId,
+        timing: '',
+        url:''
       }
     });
 
-    return NextResponse.json(batch);
+    const liveClases = await db.live.findMany({
+      where:{
+        batchId: params.batchId
+      }
+    });
+
+    return NextResponse.json(liveClases);
   } catch (error) {
-    console.log("[COURSES]", error);
+    console.log("[LIVE_CLASS]", error);
     return new NextResponse("Internal Error", { status: 500 });
   }
 }

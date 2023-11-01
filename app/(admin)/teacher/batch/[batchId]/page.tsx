@@ -61,17 +61,17 @@ const BatchIdPage = async ({
         <>
             {!batch.isPublished && (
                 <Banner
-                    label="This course is unpublished. It will not be visible to the students."
+                    label="This batch is unpublished. It will not be visible to the students."
                 />
             )}
             <div className="p-6">
                 <div className="flex items-center justify-between">
                     <Link
-                        href={`/teacher/courses/${params.batchId}`}
+                        href={`/teacher/batch`}
                         className="flex items-center text-sm hover:opacity-75 transition mb-6"
                     >
                         <ArrowLeft className="h-4 w-4 mr-2" />
-                        Back to course setup
+                        Back to batch setup
                     </Link>
                     <div className="flex flex-col gap-y-2">
                         <h1 className="text-2xl font-medium">
@@ -130,7 +130,7 @@ const BatchIdPage = async ({
                             <div className="flex items-center gap-x-2">
                                 <IconBadge icon={ListChecks} />
                                 <h2 className="text-xl">
-                                    Phase modules
+                                Enrollment Date {`(Till)`}
                                 </h2>
                             </div>
                             <DateForm

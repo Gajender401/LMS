@@ -3,31 +3,26 @@ import { NextResponse } from "next/server";
 
 import { db } from "@/lib/db";
 
-export async function POST(
+export async function GET(
   req: Request,
   { params }: { params: { courseId: string } }
 ) {
   try {
     const { userId } = auth();
-    const { title } = await req.json();
-
 
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
     }
-    
-    const live = await db.live.create({
-      data: {
-        title,
+
+    const batch = await db.batch.findMany({
+      where: {
         courseId: params.courseId,
-        timing: '',
-        url:''
       }
     });
 
-    return NextResponse.json(live);
+    return NextResponse.json(batch);
   } catch (error) {
-    console.log("[LIVE_CLASS]", error);
+    console.log("[COURSE_ID_DELETE]", error);
     return new NextResponse("Internal Error", { status: 500 });
   }
 }

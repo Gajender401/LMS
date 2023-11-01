@@ -25,12 +25,11 @@ const BatchPage = async () => {
     return (
         <>
             <div className="p-6">
+                    <h1>Create a batch here</h1>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-16">
-
                         <BatchForm
                             initialData={batch}
                         />
-
                 </div>
             </div>
         </>

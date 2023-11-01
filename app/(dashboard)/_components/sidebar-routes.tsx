@@ -1,6 +1,6 @@
 "use client";
 
-import { BarChart, Compass, Layout, List, Airplay, GraduationCap, Building2, Contact2, Book, HomeIcon, Calendar, Settings, Code2, Router, MessageSquare, Briefcase, Split, Tv } from "lucide-react";
+import { BarChart, Compass, Layout, List, Airplay, GraduationCap, Building2, Contact2, Book, HomeIcon, Calendar, Settings, Code2, Router, MessageSquare, Briefcase, Split, Tv, Tv2, GroupIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 import { SidebarItem } from "./sidebar-item";
@@ -50,13 +50,13 @@ const teacherRoutes = [
     href: "/teacher/courses",
   },
   {
-    icon: List,
-    label: "Courses",
-    href: "/teacher/batches",
+    icon: GroupIcon,
+    label: "Batch",
+    href: "/teacher/batch",
   },
   {
-    icon: List,
-    label: "Courses",
+    icon: Tv,
+    label: "Live",
     href: "/teacher/live",
   },
   {

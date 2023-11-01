@@ -19,6 +19,8 @@ export const SidebarItem = ({
   const pathname = usePathname();
   const router = useRouter();
 
+  const isTeacherPage = pathname?.includes("/teacher");
+
   const isActive =
     (pathname === "/" && href === "/") ||
     pathname === href ||
@@ -32,7 +34,7 @@ export const SidebarItem = ({
     <button
       onClick={onClick}
       type="button"
-      className="flex flex-row items-center text-gray-200 hover:text-white transition duration-200 ease-in-out"
+      className={`flex flex-row items-center ${isTeacherPage?'text-black rounded-sm px-5 py-2 hover:bg-slate-200':''} text-gray-200 hover:text-white transition duration-200 ease-in-out`}
     >
       <Icon
         size={22}

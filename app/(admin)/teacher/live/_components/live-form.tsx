@@ -5,10 +5,10 @@ import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Loader2, PlusCircle } from "lucide-react";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { Batch} from "@prisma/client";
+import {Live } from "@prisma/client";
 
 import {
   Form,
@@ -21,19 +21,23 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
 
-import { BatchList } from "./batch-list";
+import { LiveList } from "./live-list";
 
-interface BatchFormProps {
-  initialData:Batch[];
+interface LivesFormProps {
+  initialData: Live[];
+  batchId: string | undefined;
+  setLive: Dispatch<SetStateAction<Live[]>>;
 };
 
 const formSchema = z.object({
   title: z.string().min(1),
 });
 
-export const BatchForm = ({
+export const LiveForm = ({
   initialData,
-}: BatchFormProps) => {
+  batchId,
+  setLive,
+}: LivesFormProps) => {
   const [isCreating, setIsCreating] = useState(false);
   const [isUpdating, setIsUpdating] = useState(false);
 
@@ -54,8 +58,10 @@ export const BatchForm = ({
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.post(`/api/batch`, values);
-      toast.success("batch created");
+      const res = await axios.post(`/api/live/batch/${batchId}/live`, values);
+      setLive(res.data);
+      
+      toast.success("Live class created");
       toggleCreating();
       router.refresh();
     } catch {
@@ -64,7 +70,7 @@ export const BatchForm = ({
   }
 
   const onEdit = (id: string) => {
-    router.push(`/teacher/batch/${id}`);
+    router.push(`/teacher/live/${id}`);
   }
 
   return (
@@ -75,14 +81,14 @@ export const BatchForm = ({
         </div>
       )}
       <div className="font-medium flex items-center justify-between">
-        Batches
+        Course Live classes
         <Button onClick={toggleCreating} variant="ghost">
           {isCreating ? (
             <>Cancel</> 
           ) : (
             <>
               <PlusCircle className="h-4 w-4 mr-2" />
-              Add a batch
+              Add a class
             </>
           )}
         </Button>
@@ -124,13 +130,17 @@ export const BatchForm = ({
           !initialData.length && "text-slate-500 italic"
         )}>
           {!initialData.length && "No classes yet"}
-          <BatchList
+          <LiveList
             onEdit={onEdit}
             items={initialData || []}
           />
         </div>
       )}
-
+      {!isCreating && (
+        <p className="text-xs text-muted-foreground mt-4">
+          Drag and drop to reorder the class
+        </p>
+      )}
     </div>
   )
 }

@@ -28,7 +28,7 @@ interface CourseFormProps {
 };
 
 const formSchema = z.object({
-  categoryId: z.string().min(1),
+  courseId: z.string().min(1),
 });
 
 export const CourseForm = ({
@@ -45,7 +45,7 @@ export const CourseForm = ({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      categoryId: initialData?.status || ""
+      courseId: initialData?.courseId || ""
     },
   });
 
@@ -54,7 +54,7 @@ export const CourseForm = ({
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
       await axios.patch(`/api/batch/${batchId}`, values);
-      toast.success("Course updated");
+      toast.success("Batch updated");
       toggleEdit();
       router.refresh();
     } catch {
@@ -62,19 +62,19 @@ export const CourseForm = ({
     }
   }
 
-  const selectedOption = options.find((option) => option.value === initialData.status);
+  const selectedOption = options.find((option) => option.value === initialData.courseId);
 
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
-        Course category
+        Course 
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
             <>Cancel</>
           ) : (
             <>
               <Pencil className="h-4 w-4 mr-2" />
-              Edit category
+              Edit course
             </>
           )}
         </Button>
@@ -84,7 +84,7 @@ export const CourseForm = ({
           "text-sm mt-2",
           !initialData.status && "text-slate-500 italic"
         )}>
-          {selectedOption?.label || "No category"}
+          {selectedOption?.label || "No options"}
         </p>
       )}
       {isEditing && (
@@ -95,7 +95,7 @@ export const CourseForm = ({
           >
             <FormField
               control={form.control}
-              name="categoryId"
+              name="courseId"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>

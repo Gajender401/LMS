@@ -5,10 +5,10 @@ import axios from "axios";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Pencil } from "lucide-react";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { Batch } from "@prisma/client";
+import { Batch, Live } from "@prisma/client";
 
 import {
   Form,
@@ -21,60 +21,67 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Combobox } from "@/components/ui/combobox";
 
-interface StatusFormProps {
-  initialData: Batch;
-  batchId: string;
-  options: { label: string; value: string; }[];
+
+interface BatchFormProps {
+  options: Options[];
+  setLive: Dispatch<SetStateAction<Live[]>>;
+  setBatchId: Dispatch<SetStateAction<string | undefined>>;
+
 };
 
+interface Options{
+  label: string; 
+  value: string;
+}
+
 const formSchema = z.object({
-  status: z.string().min(1),
+  options: z.string().min(1),
 });
 
-export const StatusForm = ({
-  initialData,
-  batchId,
+export const BatchForm = ({
   options,
-}: StatusFormProps) => {
+  setLive,
+  setBatchId
+}: BatchFormProps) => {
   const [isEditing, setIsEditing] = useState(false);
+  const [selectedOption, setSelectedOption] = useState<Options>();
 
   const toggleEdit = () => setIsEditing((current) => !current);
-
-  const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      status: initialData?.status || ""
+      options: ""
     },
   });
 
   const { isSubmitting, isValid } = form.formState;
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const selectedOption = options.find((option) => option.value === values.options);
+    setSelectedOption(selectedOption)    
+    setBatchId(values.options)
     try {
-      await axios.patch(`/api/batch/${batchId}`, values);
-      toast.success("Batch updated");
+      const res = await axios.get(`/api/live/batch/${values.options}`);
+      setLive(res.data)
       toggleEdit();
-      router.refresh();
     } catch {
       toast.error("Something went wrong");
     }
   }
 
-  const selectedOption = options.find((option) => option.value === initialData.status);
 
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
-        Status
+        Select Batch
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
             <>Cancel</>
           ) : (
             <>
               <Pencil className="h-4 w-4 mr-2" />
-              Edit
+              Edit category
             </>
           )}
         </Button>
@@ -82,9 +89,9 @@ export const StatusForm = ({
       {!isEditing && (
         <p className={cn(
           "text-sm mt-2",
-          !initialData.status && "text-slate-500 italic"
+          !options && "text-slate-500 italic"
         )}>
-          {selectedOption?.label || "No options"}
+          {selectedOption?.label || "No category"}
         </p>
       )}
       {isEditing && (
@@ -95,7 +102,7 @@ export const StatusForm = ({
           >
             <FormField
               control={form.control}
-              name="status"
+              name="options"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>

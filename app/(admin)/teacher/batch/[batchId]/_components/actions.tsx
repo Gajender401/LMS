@@ -29,10 +29,10 @@ export const Actions = ({
 
       if (isPublished) {
         await axios.patch(`/api/batch/${batchId}/unpublish`);
-        toast.success("Course unpublished");
+        toast.success("Batch unpublished");
       } else {
         await axios.patch(`/api/batch/${batchId}/publish`);
-        toast.success("Course published");
+        toast.success("Batch published");
       }
 
       router.refresh();
@@ -49,9 +49,9 @@ export const Actions = ({
 
       await axios.delete(`/api/batch/${batchId}`);
 
-      toast.success("Course deleted");
+      toast.success("Batch deleted");
       router.refresh();
-      router.push(`/teacher/courses`);
+      router.push(`/teacher/batch`);
     } catch {
       toast.error("Something went wrong");
     } finally {
