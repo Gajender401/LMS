@@ -1,6 +1,6 @@
 "use client";
 
-import { BarChart, Compass, Layout, List, Airplay, GraduationCap, Building2, Contact2, Book, HomeIcon, Calendar, Settings, Code2, Router, MessageSquare, Briefcase, Split, Tv, Tv2, GroupIcon } from "lucide-react";
+import { BarChart, List, Airplay, Book, HomeIcon, Code2, MessageSquare, Briefcase, Split, Tv, GroupIcon } from "lucide-react";
 import { usePathname } from "next/navigation";
 
 import { SidebarItem } from "./sidebar-item";
@@ -36,11 +36,6 @@ const guestRoutes = [
     label: "Doubts",
     href: "/doubts"
   },
-  {
-    icon: Settings,
-    label: "Settings",
-    href: "/settings"
-  }
 ];
 
 const teacherRoutes = [
@@ -77,22 +72,6 @@ const applicationRoutes = [
     label: "Application",
     href: "#",
   },
-
-  // {
-  //   icon: Contact2,
-  //   label: "Persnol info",
-  //   href: "#persnol-info",
-  // },
-  // {
-  //   icon: GraduationCap,
-  //   label: "Education info",
-  //   href: "#education-info",
-  // },
-  // {
-  //   icon: Building2,
-  //   label: "Occupation details",
-  //   href: "#occupation-details",
-  // },
 ]
 
 export const SidebarRoutes = () => {

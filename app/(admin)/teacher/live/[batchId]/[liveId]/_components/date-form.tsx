@@ -8,6 +8,7 @@ import { Pencil } from "lucide-react";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
+import { format } from "date-fns"
 
 import {
   Form,
@@ -19,25 +20,26 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-interface UrlFormProps {
+
+interface DateFormProps {
   initialData: {
-    url: string;
+    timing: string ;
   };
-  courseId: string;
-  liveId: string;
+  batchId: string;
+  liveId: string
 };
 
 const formSchema = z.object({
-  url: z.string().min(1, {
-    message: "Url is required",
-  }),
+  timing: z.coerce.string().min(1, {
+    message: "date is required",
+  })
 });
 
-export const UrlForm = ({
+export const DateForm = ({
   initialData,
-  courseId,
+  batchId,
   liveId
-}: UrlFormProps) => {
+}: DateFormProps) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const toggleEdit = () => setIsEditing((current) => !current);
@@ -53,8 +55,8 @@ export const UrlForm = ({
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.patch(`/api/courses/${courseId}/live/${liveId}`, values);
-      toast.success("Live class updated");
+      await axios.patch(`/api/live/batch/${batchId}/live/${liveId}`, values);
+      toast.success("Live updated");
       toggleEdit();
       router.refresh();
     } catch {
@@ -65,7 +67,7 @@ export const UrlForm = ({
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
-        Class url
+        Set Date and Time
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
             <>Cancel</>
@@ -79,7 +81,7 @@ export const UrlForm = ({
       </div>
       {!isEditing && (
         <p className="text-sm mt-2">
-          {initialData.url}
+          {initialData.timing}
         </p>
       )}
       {isEditing && (
@@ -90,13 +92,14 @@ export const UrlForm = ({
           >
             <FormField
               control={form.control}
-              name="url"
+              name="timing"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>
                     <Input
                       disabled={isSubmitting}
                       placeholder="e.g. 'Advanced web development'"
+                      type="datetime-local"
                       {...field}
                     />
                   </FormControl>

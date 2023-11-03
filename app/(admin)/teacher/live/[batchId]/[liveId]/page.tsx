@@ -15,7 +15,7 @@ import { UrlForm } from "./_components/url-form";
 const CourseIdPage = async ({
     params
 }: {
-    params: { courseId: string, liveId: string }
+    params: { batchId: string, liveId: string }
 }) => {
     const { userId } = auth();
 
@@ -58,7 +58,7 @@ const CourseIdPage = async ({
             <div className="p-6">
                 <div className="flex items-center justify-between">
                     <Link
-                        href={`/teacher/courses/${params.courseId}`}
+                        href={`/teacher/live`}
                         className="flex items-center text-sm hover:opacity-75 transition mb-6"
                     >
                         <ArrowLeft className="h-4 w-4 mr-2" />
@@ -74,7 +74,7 @@ const CourseIdPage = async ({
                     </div>
                     <Actions
                         disabled={!isComplete}
-                        courseId={params.courseId}
+                        batchId={params.batchId}
                         liveId={params.liveId}
                         isPublished={live.isPublished}
                     />
@@ -89,17 +89,17 @@ const CourseIdPage = async ({
                         </div>
                         <TitleForm
                             initialData={live}
-                            courseId={params.courseId}
+                            batchId={params.batchId}
                             liveId={params.liveId}
                         />
                         <UrlForm
                             initialData={live}
-                            courseId={params.courseId}
+                            batchId={params.batchId}
                             liveId={params.liveId}
                         />
                         <DateForm
                             initialData={live}
-                            courseId={params.courseId}
+                            batchId={params.batchId}
                             liveId={params.liveId}
                         />
                     </div>

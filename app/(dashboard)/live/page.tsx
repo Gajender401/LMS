@@ -21,7 +21,7 @@ const Live = () => {
 
     async function fetchLink() {
         const res = await axios.get('/api/getlive')
-        console.log(res.data);
+        console.log("live",res.data);
         setData(res.data)
     }
 

@@ -13,35 +13,24 @@ export async function GET() {
   try {
     const currentDateTime = new Date().toISOString();
 
-    const course = await db.course.findMany({
+    const batch = await db.batch.findFirst({
       where: {
-        applications: {
+        application: {
           some: {
             userId,
             status: 'Approved',
           },
         },
-      },
-      include: {
-        category: true,
-        phase: {
-          where: {
-            isPublished: true,
-          },
-          select: {
-            id: true,
-          }
-        },
-      },
-    });
+      }
+    });    
 
     const live = await db.live.findMany({
       where: {
-        courseId: course[0].id,
+        batchId: batch?.id,
         timing: {
           gt: currentDateTime,
         },
-        isPublished:true
+        isPublished: true
       },
     });
 

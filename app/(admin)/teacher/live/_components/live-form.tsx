@@ -43,7 +43,7 @@ export const LiveForm = ({
 
   const toggleCreating = () => {
     setIsCreating((current) => !current);
-  }
+  } 
 
   const router = useRouter();
 
@@ -70,7 +70,7 @@ export const LiveForm = ({
   }
 
   const onEdit = (id: string) => {
-    router.push(`/teacher/live/${id}`);
+    router.push(`/teacher/live/${batchId}/${id}`);
   }
 
   return (

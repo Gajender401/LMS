@@ -10,7 +10,7 @@ export async function POST(
   try {
     const user = await currentUser();
 
-    const { heard, curr_role, career, profession, public_profile, questions, courseId, email} = await req.json();
+    const { heard, curr_role, career, profession, public_profile, questions, batchId, email} = await req.json();
 
     if (!user || !user.id ) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -35,7 +35,7 @@ export async function POST(
         public_profile: public_profile,
         profession: profession,
         questions: questions,
-        courseId: courseId,
+        batchId: batchId,
         status: 'Pending'
       }
     });

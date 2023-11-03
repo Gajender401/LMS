@@ -11,14 +11,14 @@ import { ConfirmModal } from "@/components/modals/confirm-modal";
 
 interface ActionsProps {
   disabled: boolean;
-  courseId: string;
+  batchId: string;
   liveId: string
   isPublished: boolean;
 };
 
 export const Actions = ({
   disabled,
-  courseId,
+  batchId,
   liveId,
   isPublished
 }: ActionsProps) => {
@@ -30,10 +30,10 @@ export const Actions = ({
       setIsLoading(true);
 
       if (isPublished) {
-        await axios.patch(`/api/courses/${courseId}/live/${liveId}/unpublish`);
+        await axios.patch(`/api/live/batch/${batchId}/live/${liveId}/unpublish`);
         toast.success("Live class unpublished");
       } else {
-        await axios.patch(`/api/courses/${courseId}/live/${liveId}/publish`);
+        await axios.patch(`/api/live/batch/${batchId}/live/${liveId}/publish`);
         toast.success("Live class published");
       }
 
@@ -49,7 +49,7 @@ export const Actions = ({
     try {
       setIsLoading(true);
 
-      await axios.delete(`/api/courses/${courseId}/live/${liveId}`);
+      await axios.delete(`/api/live/batch/${batchId}/live/${liveId}`);
 
       toast.success("Live class deleted");
       router.refresh();

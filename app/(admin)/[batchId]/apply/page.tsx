@@ -73,14 +73,14 @@ const formSchema = z.object({
       message: "questions must not be longer than 30 characters.",
     })
     .optional(),
-  courseId: z.string(),
+  batchId: z.string(),
   email: z.string().email().min(5, {
     message: "questions must be at least 5 characters.",
   })
 });
 
 const Apply = (
-  { params }: { params: { courseId: string; } }
+  { params }: { params: { batchId: string; } }
 ) => {
 
   const router = useRouter();
@@ -104,7 +104,7 @@ const Apply = (
       values.heard = values.other_value;
     }
     delete values.other_value;
-    values.courseId = params.courseId
+    values.batchId = params.batchId
 
     try {
       await axios.post("/api/apply", values);

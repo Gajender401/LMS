@@ -1,0 +1,136 @@
+
+/* course */
+.upper-sect {
+  background-color: #e2dfdf;
+}
+.total-course-label {
+  background-color: #CFB9F3;
+  border-top-right-radius: 24px;
+  border-bottom-right-radius: 24px;
+}
+.course-label {
+  background-color: #833FEE;
+  border-top-right-radius: 24px;
+  border-bottom-right-radius: 24px;
+  cursor: pointer;
+}
+
+.btn1:checked + .menu-btn1::before {
+  content: "\00d7";
+  font-size: 24px;
+}
+
+.menu-btn1::after {
+  content: "\2630";
+  font-size: 24px;
+}
+
+.upper-course-det {
+  background-color: #833FEE;
+  top: 20px;
+}
+.btn1 {
+  background-color: #833FEE;
+}
+#sidebar1{
+  position: fixed;
+  top: 99px;
+  background: #833FEE;
+  border-top-right-radius: 24px;
+  height: 100%;
+  width: auto;
+  overflow: hidden;
+  left: -500px;
+  transition: all 0.4s ease-in-out;
+}
+#btn1:checked ~ #sidebar1{
+  left: 0;
+}
+#sidebar1 .title{
+  text-align: center;
+  background: #833FEE;
+  color: #f2f2f2;
+}
+#sidebar1 .list-items{
+  position: relative;
+  background: #833fee;
+  width: 100%;
+  height: 100%;
+  list-style: none;
+}
+#sidebar1 .list-items li{
+  line-height: 50px;
+  transition: all 0.3s ease;
+}
+
+#sidebar1 .list-items li a{
+  color: #f2f2f2;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 500;
+  height: 100%;
+  width: 100%;
+  display: block;
+}
+#sidebar1 .list-items li a i{
+  margin-right: 20px;
+}
+
+
+.list-items .icons a:first-child{
+  margin-left: 0px;
+}
+
+
+.right-side {
+  border-radius: 20px;
+  background-color: #fff;
+  max-height: 650px;
+}
+
+.right-side-inner {
+  background-color: #833fee;
+  border-radius: 20px;
+  height: 650px;
+}
+
+.video-down-btn {
+  color: #833FEE;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+}
+
+.video-down-btn-notes {
+  background-color: #F3EEFF;
+  color: #833FEE;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  
+}
+
+.video-down-btn1 {
+  background-color: #F3EEFF;
+  color: #833FEE;
+  border-radius: 4px;
+}
+
+.video-down-sect {
+  border: 6px solid #F3EEFF;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.video-down-sect1 {
+  display: none;
+  border: 6px solid #F3EEFF;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.doubts-text {
+  color: #833FEE;
+}

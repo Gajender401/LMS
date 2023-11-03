@@ -19,25 +19,25 @@ import {
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
-interface TitleFormProps {
+interface UrlFormProps {
   initialData: {
-    title: string;
+    url: string;
   };
-  courseId: string;
-  liveId: string
+  batchId: string;
+  liveId: string;
 };
 
 const formSchema = z.object({
-  title: z.string().min(1, {
+  url: z.string().min(1, {
     message: "Url is required",
   }),
 });
 
-export const TitleForm = ({
+export const UrlForm = ({
   initialData,
-  courseId,
+  batchId,
   liveId
-}: TitleFormProps) => {
+}: UrlFormProps) => {
   const [isEditing, setIsEditing] = useState(false);
 
   const toggleEdit = () => setIsEditing((current) => !current);
@@ -53,7 +53,7 @@ export const TitleForm = ({
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     try {
-      await axios.patch(`/api/courses/${courseId}/live/${liveId}`, values);
+      await axios.patch(`/api/live/batch/${batchId}/live/${liveId}`, values);
       toast.success("Live class updated");
       toggleEdit();
       router.refresh();
@@ -65,7 +65,7 @@ export const TitleForm = ({
   return (
     <div className="mt-6 border bg-slate-100 rounded-md p-4">
       <div className="font-medium flex items-center justify-between">
-        Class title
+        Class url
         <Button onClick={toggleEdit} variant="ghost">
           {isEditing ? (
             <>Cancel</>
@@ -79,7 +79,7 @@ export const TitleForm = ({
       </div>
       {!isEditing && (
         <p className="text-sm mt-2">
-          {initialData.title}
+          {initialData.url}
         </p>
       )}
       {isEditing && (
@@ -90,7 +90,7 @@ export const TitleForm = ({
           >
             <FormField
               control={form.control}
-              name="title"
+              name="url"
               render={({ field }) => (
                 <FormItem>
                   <FormControl>

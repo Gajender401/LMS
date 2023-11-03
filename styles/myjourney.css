@@ -1,0 +1,183 @@
+
+.right-side {
+  border-radius: 20px;
+  background-color: #fff;
+  max-height: 650px;
+}
+
+.course-track-details::-webkit-scrollbar {
+  width: 0em; /* You can adjust the width according to your preference */
+}
+
+.course-track-details::-webkit-scrollbar-track {
+  background-color: transparent transparent; /* Set a transparent background color for the scrollbar track */
+}
+.course-track-details::-webkit-scrollbar-thumb {
+  background-color: #888; /* Set a color for the scrollbar thumb */
+}
+
+
+.course-track-details {
+  overflow-y: auto;
+}
+
+@media screen and (min-width: 992px) {
+  .course-track-details {
+    max-height: 650px;
+    overflow-y: auto;
+  }
+}
+ 
+.invite {
+  position: relative;
+  width: 142px;
+  height: 138px;
+  top: 20%;
+  border-radius: 10px;
+}
+
+.invite-btn {
+  width: 88px;
+  height: 24px;
+  background-color: #6e00c5;
+  border-radius: 4px;
+  padding: 4px;
+}
+
+
+/* accordion */
+
+.course-first-sect {
+  background-color: #EBE3FF;
+  border-radius: 10px;
+  box-shadow: 8px 8px 1px #C6B1FD;
+}
+
+
+/* .course-first-sect:hover {
+  background-color: #9360E3;
+  box-shadow: 7px 7px 1px #555555;
+} */
+
+.accordion {
+  list-style: none;
+}
+
+.accordion li {
+  width: 95%;
+  align-items: center;
+  box-shadow: 8px 8px 1px #C6B1FD;
+  padding: 8px;
+  border-radius: 10px;
+  font-size: 17px;
+  background-color: #EBE3FF;
+}
+
+
+.accordion li:hover, .accordion li:active {
+  box-shadow: 7px 7px 1px #C6B1FD;
+}
+
+.accordion li label {
+  padding: 8px;
+  color: #000;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.accordion li label::after {
+  content: ''; 
+  background-image: url('/public/assets/down-arrow-inner.png');
+  width: 20px;
+  height: 20px;
+  background-size: contain;
+  transition: background-image 0.2s ease;
+}
+
+.course-first-sect label {
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.course-first-sect label::after {
+  content: ''; 
+  background-image: url('/public/assets/down-arrow-outer.png');
+  width: 20px;
+  height: 20px;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.course-first-sect .locked-course::after {
+  content: ''; 
+  background-image: url('/public/assets/lock.png');
+  width: 20px;
+  height: 20px;
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+
+.course-sect-show {
+ height: 0px;
+ display: none;
+ transition: height 0.3s ease;
+}
+
+.course-sect-1:checked ~ .course-sect-show {
+  height: auto;
+  display: inline-block;
+  transition: height 0.3s ease;
+}
+
+.course-sect-1:checked ~ label::after {
+  content: "";
+  background-image: url('/public/assets/down-arrow-outer.png');
+  width: 20px;
+  height: 20px;
+  background-size: contain;
+  background-repeat: no-repeat;
+}
+
+.course-sect-1 {
+  display: none;
+}
+
+.answer {
+  max-height: 0px;
+  overflow: hidden;
+  transition: max-height 0.2s ease; 
+}
+
+.radio:checked ~ .answer {
+  max-height: 800px; 
+  overflow: hidden;
+}
+
+.radio:checked ~ label::after {
+  content: ''; 
+  background-image: url('/public/assets/up-arrow-inner.png');
+  width: 20px;
+  height: 20px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  transition: background-image 0.2s ease;
+}
+
+.radio {
+  display: none;
+}
+
+.module-content {
+  background-color: #fff;
+  border-radius: 10px;
+  margin: 8px;
+}
+
+.module-content a:hover {
+  color:#833fee;
+  transition: color 0.4s ease;
+}

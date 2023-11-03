@@ -1,18 +1,9 @@
 'use client'
-import InfoCard from "./_components/Info-card";
-import { Progress } from "@/components/ui/progress";
-import {
-    Sheet,
-    SheetContent,
-    SheetDescription,
-    SheetHeader,
-    SheetTitle,
-    SheetTrigger,
-} from "@/components/ui/sheet"
-import { AiFillLock } from "react-icons/ai";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import axios from "axios";
+
+import '@/styles/myjourney.css'
 
 type Phase = {
     courseId: string;
@@ -25,9 +16,9 @@ type Phase = {
     position: number;
     title: string;
     updatedAt: string;
-  };
+};
 
-  type Module = {
+type Module = {
     chapters: Array<any>;
     createdAt: string;
     id: string;
@@ -36,9 +27,9 @@ type Phase = {
     position: number;
     title: string;
     updatedAt: string;
-  };
+};
 
-  type Chapter = {
+type Chapter = {
     createdAt: string;
     description: string;
     id: string;
@@ -49,11 +40,10 @@ type Phase = {
     title: string;
     updatedAt: string;
     videoUrl: string;
-  };
+};
 
 const MyJourney = () => {
-
-    const [module, setModule] = useState<Module>()
+    const [activeItem, setactiveItem] = useState('')
     const [lockedPhases, setLockedPhases] = useState<Phase[]>([])
     const [unlockedLockedPhases, setUnlockedLockedPhases] = useState<Phase[]>([])
 
@@ -65,7 +55,7 @@ const MyJourney = () => {
         setUnlockedLockedPhases(phase.data['unlockedPhases'])
         setLockedPhases(phase.data['lockedPhases'])
 
-    } 
+    }
 
     useEffect(() => {
         fetchCourse()
@@ -73,58 +63,78 @@ const MyJourney = () => {
 
 
     return (
+        <div className="course-track-details pt-8 pl-2 pr-2 md:pl-4 md:pr-4 lg:pl-10 lg:pr-10 pb-8">
+            <h1 className="text-2xl pl-6 lg:pl-0 md:text-2xl lg:text-3xl font-bold">
+                My Journey
+            </h1>
 
-        <div className="flex bg-white p-8 w-full rounded-[35px] h-full flex-col ">
-            <Sheet >
-                <div className="overflow-y-scroll container_1" >
-                    <h1 className="text-3xl font-semibold text-slate-800" >My Journey</h1>
+            <div className="course-track mt-8">
 
-                    {unlockedLockedPhases.map(phase =>(
-                    <div key={phase.id} className="p-5 my-5 bg-purple-100 space-y-5 rounded-[35px] h-[60%] overflow-y-auto " >
-                        <div className="flex flex-row items-center text-slate-600  justify-between" >
-                            <h2 className="text-xl  my-2 font-medium " >{phase?.title}</h2>
-                            <div className="flex flex-row items-center gap-5 " >
-                                <Progress variant="custom2" className="w-56" value={48} />
-                                <span>48%</span>
-                            </div>
-                        </div>
-
-                        {phase?.modules.map((item:Module)=> (
-                            <SheetTrigger key={item.id} asChild >
-                                <div onClick={()=> setModule(item)} >
-                                    <InfoCard text={`Module ${item?.title}`} />
-                                </div>
-                            </SheetTrigger>
-                        ))}
-                    </div>
-                    ))}
-
-                    {lockedPhases.map(phase => (
-                        <div key={phase.id} className="p-5 my-5 bg-gray-200 flex flex-row justify-between text-slate-600 items-center rounded-[35px] h-[20%] overflow-y-hidden " >
-                            <h2 className="text-2xl font-medium " >{phase.title}</h2>
-                            <AiFillLock size={50} className="pb-2" />
-                        </div>
-                    ))}
-
-                    <SheetContent>
-                        <SheetHeader>
-                            <SheetTitle>
-                                <h2>{module?.title}</h2>
-                            </SheetTitle>
-                            <SheetDescription className="p-2 space-y-2 " >
-                                {module?.chapters.map((item: Chapter) => (
-                                    <div key={item.id} onClick={() => router.replace(`chapter/${item.id}`)}
-                                        className="border cursor-pointer text-slate-600 p-2 rounded-lg border-pink-200 bg-pink-50" >
-                                        {item.title}
-                                    </div>
+                {unlockedLockedPhases.map(phase => (
+                    <div key={phase.id} style={activeItem?{backgroundColor:'#9360E3',color:'white',boxShadow:'7px 7px 1px #555555'}:{}} onClick={()=>setactiveItem(phase.id)} className='course-first-sect m-2 mb-6 flex flex-col justify-center pt-4'>
+                        <input type="checkbox" id="courseSect1" name='course-first-sect' className="course-sect-1" />
+                        <label htmlFor="courseSect1" className="pl-8 pb-4 pr-6 text-lg md:text-xl items-center">{phase.title}</label>
+                        <div className="course-sect-show text-black p-2 md:p-0 flex flex-col justify-center">
+                            <ul className="accordion w-full flex flex-col items-center">
+                                {phase?.modules.map((_module: Module, index) => (
+                                    <li key={_module.id} className="mb-6">
+                                        <input
+                                            type="checkbox"
+                                            id="option1"
+                                            name="accordion"
+                                            className="radio"
+                                        />
+                                        <label htmlFor="option1" className="text-normal md:text-lg">
+                                            <span>
+                                                Module-{index}
+                                                <strong className="ml-2 md:ml-4">
+                                                    {_module.title}
+                                                </strong>
+                                            </span>
+                                        </label>
+                                        {_module?.chapters.map((chapter: Chapter) => (
+                                            <div key={chapter.id} className="answer">
+                                                <div className="module-content flex flex-col pl-2 pr-1 md:pl-4 pt-4 pb-4">
+                                                    <a
+                                                        onClick={() => router.replace(`chapter/${chapter.id}`)}
+                                                        className="text-sm md:text-normal cursor-pointer flex flex-row items-center p-1"
+                                                    >
+                                                        <svg
+                                                            width="20px"
+                                                            height="20px"
+                                                            viewBox="0 0 24 24"
+                                                            fill="currentColor"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                        >
+                                                            <path
+                                                                d="M6 12H18M18 12L13 7M18 12L13 17"
+                                                                stroke="currentColor"
+                                                                stroke-width="2"
+                                                                stroke-linecap="round"
+                                                                stroke-linejoin="round"
+                                                            />
+                                                        </svg>
+                                                        {chapter.title}
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </li>
                                 ))}
-                            </SheetDescription>
-                        </SheetHeader>
-                    </SheetContent>
-                </div>
+                            </ul>
+                        </div>
+                    </div>
+                ))}
 
+                {lockedPhases.map(phase => (
+                    <div key={phase.id} className="course-first-sect m-2 mb-6 flex flex-col justify-center pt-4">
+                        <input type="checkbox" id="courseSect4" name='course-first-sect' className="course-sect-1" />
+                        <label htmlFor="courseSect4" className="pl-8 pb-4 pr-6 text-lg md:text-xl items-center locked-course">{phase.title}</label>
+                    </div>
+                ))}
 
-            </Sheet>
+            </div>
+
         </div>
     );
 }
