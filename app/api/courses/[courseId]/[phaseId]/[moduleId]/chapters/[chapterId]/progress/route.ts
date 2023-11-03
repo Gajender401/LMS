@@ -9,7 +9,7 @@ export async function PUT(
 ) {
   try {
     const { userId } = auth();
-    const { isCompleted } = await req.json();
+    const { isCompleted,lastVideoId } = await req.json();
 
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
@@ -29,6 +29,7 @@ export async function PUT(
         userId,
         chapterId: params.chapterId,
         isCompleted,
+        lastVideoId
       }
     })
 

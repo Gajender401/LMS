@@ -16,7 +16,7 @@ export async function POST(
       return new NextResponse("Unauthorized", { status: 401 });
     }
     
-    const live = await db.live.create({
+    await db.live.create({
       data: {
         title,
         batchId: params.batchId,
