@@ -194,7 +194,6 @@ model UserProgress {
   chapter   Chapter @relation(fields: [chapterId], references: [id], onDelete: Cascade)
 
   isCompleted Boolean @default(false)
-  lastVideoId String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -220,6 +219,7 @@ model Applications {
   profession     String
   questions      String
   status         String
+  lastVideoId String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
